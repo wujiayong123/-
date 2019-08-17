@@ -1,0 +1,29 @@
+var arrayCtrl = Page.getArrayCtrl("表格").getAllRows();
+
+var dataArray = [];
+
+if (arrayCtrl.length > 0) {
+    for (var j = 0; j < arrayCtrl.length; j++) {
+        var rowdata = {
+            'productid': arrayCtrl[j].getCtrl('productid').value,
+            'productname': arrayCtrl[j].getCtrl('productname').value,
+            'makerdate': arrayCtrl[j].getCtrl('makerdate').value,
+            'number': arrayCtrl[j].getCtrl('number').value,
+            'remark': arrayCtrl[j].getCtrl('remark').value
+        };
+        dataArray.push(rowdata);
+    }
+
+    var focusRow = Page.getArrayCtrl('表格').getFocusRowIndexPath().section;
+
+    dataArray.splice(focusRow, 1);
+
+    var setter = ArrayCtrlSetter();
+    setter.append('productid', 'productid');
+    setter.append('productname', 'productname');
+    setter.append('makerdate', 'makerdate');
+    setter.append('number', 'number');
+    setter.append('remark', 'remark');
+    Page.getArrayCtrl("表格").updateList(dataArray, setter);
+    Page.applyLayout();
+}
