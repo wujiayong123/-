@@ -1,0 +1,8 @@
+1、FLY.genId();
+解释：业务对象的ID为全局唯一ID，所有新建的业务对象的ID，都应该使用该API生成。目前的平台实现，将会返回全局唯一的长整形的数
+例: 新建一个门店对象，并为其生成唯一ID
+var store = BO.new('kx_store');
+store.storeid = FLY.genId();
+store.storename = '测试门店1';
+store.storeid的值为 "4327984237498327" 长整形的数
+
