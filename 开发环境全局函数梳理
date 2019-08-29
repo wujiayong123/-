@@ -1,0 +1,2549 @@
+/*****************************************************************************
+ *                              公共flycode函数
+ *****************************************************************************/
+
+
+/**
+ * 解决js浮点数运算的误差，给Number定义
+ */
+/**
+ * 除法函数，用来得到精确的除法结果
+ * 说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为 精确的除法结果
+ * 调用：accDiv(arg1,arg2)
+ * 返回值：arg1除以arg2的精确结果
+ * @param arg1 
+ * @param arg2 
+ */
+function accDiv(arg1, arg2) {
+
+    var t1 = 0,
+        t2 = 0,
+        r1, r2;
+    try {
+        t1 = arg1.toString().split(".")[1].length;
+    } catch (e) {
+
+    }
+    try {
+        t2 = arg2.toString().split(".")[1].length;
+    } catch (e) {
+
+    }
+    with(Math) {
+        r1 = Number(arg1.toString().replace(".", ""));
+        r2 = Number(arg2.toString().replace(".", ""));
+        return (r1 / r2) * pow(10, t2 - t1);
+    }
+}
+
+
+/**
+ * 乘法函数，用来得到精确的乘法结果
+ * 说明：javascript的乘法结果会有误差，在两个浮点数 相乘的时候会比较明显。这个函数返回较为精确的乘法结果
+ * 调用：accMul(arg1,arg2)
+ * 返回值：arg1乘以 arg2的精确结果
+ * @param arg1 
+ * @param arg2 
+ */
+
+function accMul(arg1, arg2) {
+
+    var m = 0;
+    var s1 = arg1.toString();
+    var s2 = arg2.toString();
+    try {
+        m += s1.split(".")[1].length
+    } catch (e) {
+
+    }
+    try {
+        m += s2.split(".")[1].length
+    } catch (e) {
+
+    }
+    return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+}
+
+
+/**
+ * 加法函数，用来得到精确的加法结果
+ * 说明：javascript的加法 结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+ * 调用：accAdd(arg1,arg2)
+ * 返回值：arg1加上arg2的精确结果
+ * @param arg1 
+ * @param arg2 
+ */
+
+function accAdd(arg1, arg2) {
+    var r1, r2, m;
+    try {
+        r1 = arg1.toString().split(".")[1].length
+    } catch (e) {
+        r1 = 0;
+    }
+    try {
+        r2 = arg2.toString().split(".")[1].length;
+    } catch (e) {
+        r2 = 0;
+    }
+    m = Math.pow(10, Math.max(r1, r2));
+    return (arg1 * m + arg2 * m) / m;
+}
+
+
+/** 四舍五入 保留两位小数*/
+function toDecimal(x) {
+    var f = parseFloat(x);
+    if (isNaN(f)) {
+        return;
+    }
+    f = Math.round(x * 100) / 100;
+    var str = f.toString();
+    var strArr = str.split(".");
+    if (strArr.length == 1) {
+        str = str + ".00";
+    } else if (strArr.length > 1) {
+        if (strArr[1].length == 1) {
+            str = str + "0";
+        }
+    }
+    return str;
+}
+
+/** 转化为浮点数 */
+function toFloat(value) {
+    var num = parseFloat(value);
+    if (isNaN(num)) {
+        num = 0.0;
+    }
+    return num;
+}
+
+/**  转化为整数 */
+function toInt(value) {
+    var num = parseInt(value);
+    if (isNaN(num)) {
+        num = 0;
+    }
+    return num;
+}
+
+/**
+ * 将两个整形字符串，按数字相加，并返回字符串。
+ */
+function addIntStr(str1, str2) {
+    var num1 = parseInt(str1);
+    var num2 = parseInt(str2);
+    if (isNaN(num1) && isNaN(num2)) {
+        return '';
+    } else if (isNaN(num1) == false && isNaN(num2) == false) {
+        return (num1 + num2).toString();
+    } else if (isNaN(num1)) {
+        return str2;
+    } else {
+        return str1;
+    }
+}
+
+
+/** 四舍五入 保留两位小数*/
+function toDecimal(x) {
+    var f = parseFloat(x);
+    if (isNaN(f)) {
+        return;
+    }
+    f = Math.round(x * 100) / 100;
+    var str = f.toString();
+    var strArr = str.split(".");
+    if (strArr.length == 1) {
+        str = str + ".00";
+    } else if (strArr.length > 1) {
+        if (strArr[1].length == 1) {
+            str = str + "0";
+        }
+    }
+    return str;
+}
+
+/** 转化为浮点数 */
+function toFloat(value) {
+    var num = parseFloat(value);
+    if (isNaN(num)) {
+        num = 0.0;
+    }
+    return num;
+}
+
+/**  转化为整数 */
+function toInt(value) {
+    var num = parseInt(value);
+    if (isNaN(num)) {
+        num = 0;
+    }
+    return num;
+}
+
+/**
+ * 将两个整形字符串，按数字相加，并返回字符串。
+ */
+function addIntStr(str1, str2) {
+    var num1 = parseInt(str1);
+    var num2 = parseInt(str2);
+    if (isNaN(num1) && isNaN(num2)) {
+        return '';
+    } else if (isNaN(num1) == false && isNaN(num2) == false) {
+        return (num1 + num2).toString();
+    } else if (isNaN(num1)) {
+        return str2;
+    } else {
+        return str1;
+    }
+}
+
+
+/*****************************************************************************
+ *                              产品列表模块
+ *****************************************************************************/
+
+/**
+ 产品列表-获取产品列表数据
+ */
+function getProductList() {
+
+    //获取上一个表单传入的参数
+    var linkParams = Page.getLinkParams() == null ? {} : Page.getLinkParams();
+
+    //获取列表的当前页码数
+    var pageindex = Page.getValue('__pageindex');
+
+    //获取上一个表单传入的客户编码
+    var customercode = linkParams['customercode'] == null ? linkParams['storecode'] : linkParams['customercode'];
+
+    //由订单编辑跳转到产品列表时，获取订单详情传入的订单数据
+    var orderdate = linkParams['orderdate'] == null ? '' : linkParams['orderdate'];
+
+    //如果直接从上一个表单没有获取到客户编码，就从订单数据中获取订单的客户编码
+    if ((typeof(customercode) == 'undefined') || customercode == null) {
+        var data = linkParams['order_data'];
+        if ((typeof(data) != 'undefined') && data != null) {
+            customercode = data['kx_order']['customercode'];
+        }
+    }
+
+    var filterProduct = Page.getCtrl('f_product').value;
+    var filterPromotionID = Page.getCtrl('f_promotionid').value;
+    var filterBrandID = Page.getCtrl('f_brandid').value;
+    var filterProductTypeID = Page.getCtrl('f_producttypeid').value;
+    var filterKey2 = Page.getCtrl('f_key2').value;
+    //设置产品列表接口的入参
+    var input = {
+        'kx_parameters': {
+            'customercode': customercode,
+            'orderdate': orderdate,
+            'producttypeid': filterProductTypeID != null ? filterProductTypeID : '',
+            'brandid': filterBrandID != null ? filterBrandID : '',
+            'promotionid': filterPromotionID != null ? filterPromotionID : '',
+            'productname': '',
+            'key1': filterProduct != null && filterProduct != '' ? filterProduct : '',
+            'key2': filterKey2 != null && filterKey2 != '' ? filterKey2 : ''
+        },
+        '__paging': {
+            '__pageindex': pageindex,
+            '__pagesize': '20'
+        }
+    };
+    //解析产品列表接口返回的出参，并且将数据与列表绑定
+    var success = function(output) {
+        var products = output['kx_kq_product'];
+        if (products == null || Array.isArray(products) == false) {
+            return;
+        }
+        for (var i = 0; i < products.length; i++) {
+            var product = products[i];
+            var promotions = product['promotions'];
+            if (promotions == null || typeof(promotions) != 'string' || promotions.length <= 0) {
+                continue;
+            }
+            var json = eval('(' + promotions + ')');
+            if (json == null || Array.isArray(json) == false || json.length <= 0) {
+                continue;
+            }
+            for (var j = 0; j < json.length; j++) {
+                product['promotionname' + parseInt(j + 1)] = json[j]['promotionname'];
+            }
+        }
+
+        var setter = ArrayCtrlRowSetter('productlist');
+        setter.pageIndex = output['__paging'].__pageindex
+        setter.pageSize = output['__paging'].__pagesize
+        setter.itemCount = output['__paging'].__itemcount
+
+        setter.fillSetter(products[0]);
+        setter.modifySetter('productname', 'productname');
+        setter.modifySetter('productimage', 'product_image');
+        setter.modifySetter('promotionname1', 'label1');
+        setter.modifySetter('promotionname2', 'label2');
+        setter.modifySetter('promotionname3', 'label3');
+        Page.getArrayCtrl('tablelist').updateList(products, setter);
+    };
+    var fail = function(errorCode, msg) {
+        Page.alert(AlertType.error, msg != null ? msg : '数据获取失败');
+    };
+    var completion = function(result, output, msg) {
+        Page.closeProgress();
+    };
+    Page.openProgress('请稍后');
+    Model.requestServer('订单-产品列表', input, success, fail, completion);
+}
+
+/** 产品列表-获取搭赠规则*/
+function getRules() {
+    /* 获取搭赠规则 */
+    var linkParams = Page.getLinkParams() == null ? {} : Page.getLinkParams();
+    var customercode = linkParams['customercode'] == null ? linkParams['storecode'] : linkParams['customercode'];
+    var ordergroup = linkParams['ordergroup'];
+    var orderdate = linkParams['orderdate'] == null ? '' : linkParams['orderdate'];
+    if ((typeof(customercode) == 'undefined') || customercode == null) {
+        var data = linkParams['order_data'];
+        if ((typeof(data) != 'undefined') && data != null) {
+            customercode = data['kx_order']['customercode'];
+            ordergroup = data['kx_order']['ordergroup'];
+        }
+    }
+
+    Page.setValue('customercode', customercode);
+    Page.setValue('ordergroup', ordergroup);
+    var curDate = System.date().toString();
+    var rpInput = {
+        'kx_parameters': {
+            'customercode': customercode,
+            'orderdate': orderdate
+        }
+    };
+
+    function rulesRequestSuccess(output) {
+        Page.setValue('_promotionRules', output.kx_parameters);
+    };
+
+    function rulesRequestFail(errorCode, msg) {
+        Page.alert(AlertType.error, msg != null ? msg : '搭赠规则获取失败');
+    };
+
+    Model.requestServer('订单-搭赠规则列表', rpInput, rulesRequestSuccess, rulesRequestFail);
+}
+
+/*****************************************************************************
+ *                              订单编辑弹窗模块
+ *****************************************************************************/
+
+/** 订单编辑弹窗-获取销售类型选项数据 */
+function productEdit_loadSaleTypeOptions() {
+    var success = function(output) {
+        var pl_dictionary = output.pl_dictionary;
+        if (pl_dictionary == null || Array.isArray(pl_dictionary) == false || pl_dictionary.count <= 0) {
+            return;
+        }
+        var setter = PickerCtrlOptionSetter();
+        setter.append('dickey', 'key');
+        setter.append('dicvalue', 'text');
+        Page.getPickerCtrl('salestype').setOption(pl_dictionary, setter);
+    };
+    var IN = {
+        'pl_dictionary': {
+            'objectmark': 'kx_saletype',
+            'dictionarycode': '953153890776387683',
+            'status': '1'
+        }
+    };
+    var fail = function() {
+
+    }
+    var completion = function() {
+
+    }
+    Model.runLogicScript('字典应用查询', IN, success, fail, completion);
+}
+
+
+/**
+ * 订单编辑弹窗-初始化产品编辑页面
+ */
+function productEdit_initView() {
+
+    /**
+     * 接收参数并初始化页面
+     */
+    var params = Page.getLinkParams();
+    if (params.length <= 0) {
+        return;
+    }
+
+    var pageValues = params;
+    Page.setValues(pageValues);
+
+
+    /** 订单编辑 则隐藏添加按钮 显示保存按钮 否则相反*/
+    var isEditProduct = params['editProduct'];
+    if (isEditProduct != null && isEditProduct == '1') {
+        /** 订单编辑*/
+        Page.getCtrl('addOrderButton').hidden = true;
+        Page.getCtrl('saveOrderButton').hidden = false;
+        var price = params['price'];
+        //if (price.length == 0) {// modify by zcr 
+        if (price == '0.00') { // add by zcr 
+            price = params['adviceprice'];
+        }
+        Page.getCtrl('price').value = price;
+        Page.getCtrl('price_flag').value = price; // add by zcr 暂存price值，防止重复进入编辑页面造成单价显示错误
+    } else {
+        /** 订单添加*/
+        Page.getCtrl('addOrderButton').hidden = false;
+        Page.getCtrl('saveOrderButton').hidden = true;
+        var adviceprice = params['adviceprice'];
+        Page.getCtrl('price').value = adviceprice;
+        Page.getCtrl('price_flag').value = adviceprice; // add by zcr 
+    }
+
+    Page.getCtrl('price').setProperty('upperlimit', params['maxprice']);
+    Page.getCtrl('price').setProperty('lowerlimit', params['minprice']);
+
+    var salestype = params['salestype'];
+    if (salestype == null) {
+        salestype = productEdit_default_salestype();
+    }
+    Page.getCtrl('salestype').value = salestype;
+
+    var productname = params['productname'];
+    Page.getCtrl('productname').value = productname;
+
+    var promotions = params['promotions'];
+    var setter = PickerCtrlOptionSetter();
+    setter.append('promotionid', 'key');
+    setter.append('promotionname', 'text');
+    /* var arr = eval('(' + promotions + ')'); **/
+    var arr = eval(promotions);
+    Page.getPickerCtrl('promotions').setOption(arr, setter);
+
+    var distributionunitname = params['distributionunitname'];
+    Page.getCtrl('distributionunit').setProperty('unit', distributionunitname);
+    Page.getCtrl('distributionunit').value = params['distributioncount'];
+    var singleunitname = params['singleunitname'];
+    Page.getCtrl('singleunit').setProperty('unit', singleunitname);
+    Page.getCtrl('singleunit').value = params['singlecount'];
+    Page.getCtrl('discountamount').value = params['discountamount'];
+
+    if (params['promotionid'] != null && params['promotionid'].length > 0) {
+        for (var i = 0; i < arr.length; i++) {
+            var promotion = arr[i];
+            if (promotion.promotionid == params['promotionid']) {
+                Page.getCtrl('promotions').value = params['promotionid'];
+                break;
+            }
+        }
+    }
+
+
+    var singleCount = Page.getCtrl('singleunit').value;
+    var distributionCount = Page.getCtrl('distributionunit').value;
+    var priceString = Page.getCtrl('price').value;
+    if (((singleCount != null && toInt(singleCount) > 0) || (distributionCount != null && toInt(distributionCount) > 0)) && ((priceString != null && toInt(priceString) > 0) || (Page.getCtrl('salestype').getValue(CtrlValueGetter('key')) != productEdit_default_salestype()))) {
+        Page.getCtrl('addOrderButton').setProperty('disabled', false);
+        Page.getCtrl('saveOrderButton').setProperty('disabled', false);
+    } else {
+        Page.getCtrl('addOrderButton').setProperty('disabled', true);
+        Page.getCtrl('saveOrderButton').setProperty('disabled', true);
+    }
+
+    productEdit_salestype_valueChanged();
+}
+
+/** 订单编辑弹窗-销售类型变化回调事件*/
+function productEdit_salestype_valueChanged() {
+
+    if (Page.getCtrl('salestype').getValue(CtrlValueGetter('key')) == productEdit_default_salestype()) {
+        /** 是正常销售*/
+        Page.getCtrl('price').hidden = false;
+        /*Page.getCtrl('discountamount').hidden = false; 分销返利这个版本不需要 先隐藏**/
+        Page.getCtrl('promotions').hidden = false;
+        Page.getCtrl().value = Page.getCtrl('price_flag').value; // add by zcr 
+    } else {
+        Page.getCtrl('price').hidden = true;
+        /*Page.getCtrl('discountamount').hidden = true; 分销返利这个版本不需要 先隐藏 **/
+        Page.getCtrl('promotions').hidden = true;
+
+        Page.getCtrl('price').value = '0';
+        Page.getCtrl('discountamount').value = '0';
+        Page.getCtrl('promotions').value = '';
+    }
+    Page.applyLayout();
+}
+
+/** 订单编辑弹窗-默认的销售类型id */
+function productEdit_default_salestype() {
+    return '954254124545871872';
+}
+
+/** 订单编辑弹窗-获取产品数据 */
+function productEdit_getProductData() {
+    var keys = new Array('productname', 'distributionunitname', 'distributionbarcode', 'productcode', 'costname', 'maxprice', 'productcategory', 'singlebarcode', 'objtype', 'shortname', 'distributionunit', 'productimage', 'singleunit', 'adviceprice', 'boxweight', 'minprice', 'unitconverrate', 'productbrand', 'singleunitname', 'productid', 'seq', 'promotions', '__row_template');
+    var productData = Page.getValues(keys);
+    var salestype = Page.getCtrl('salestype').getValue(CtrlValueGetter('key'));
+    productData['salestype'] = salestype;
+    var salestypename = Page.getCtrl('salestype').getValue(CtrlValueGetter('text'));
+    if (typeof(salestypename) == 'undefined') {
+        salestypename = '';
+    }
+    productData['salestypename'] = salestypename;
+    var promotionid = Page.getCtrl('promotions').getValue(CtrlValueGetter('key'));
+    productData['promotionid'] = promotionid;
+    productData['costid'] = promotionid;
+    productData['costname'] = Page.getCtrl('promotions').getValue(CtrlValueGetter('text'));
+    var distributioncount = Page.getCtrl('distributionunit').value;
+    productData['distributioncount'] = distributioncount;
+    var price = Page.getCtrl('price').value;
+    productData['price'] = toDecimal(price);
+    var singlecount = Page.getCtrl('singleunit').value;
+    productData['singlecount'] = singlecount;
+    var discountamount = Page.getCtrl('discountamount').value;
+    productData['discountamount'] = discountamount;
+    var productcount = '';
+    if (distributioncount.length > 0) {
+        productcount = distributioncount + productData.distributionunitname;
+    }
+    if (singlecount.length > 0) {
+        productcount = productcount + singlecount + productData.singleunitname;
+    }
+    productData['productcount'] = productcount;
+    return productData;
+}
+
+/** 订单编辑弹窗-添加到购物车 */
+function productEdit_addToShoppingCard() {
+    if (Page.constraintCheck() == false) {
+        Page.alert(AlertType.info, '数据有误 请修正后再次操作');
+        return;
+    }
+
+    var productData = productEdit_getProductData();
+    Page.callEvent('refreshoppingcar', productData);
+    Page.returnToPage();
+}
+
+/** 订单编辑弹窗-保存 */
+function productEdit_saveProduct() {
+    if (Page.constraintCheck() == false) {
+        Page.alert(AlertType.info, '数据有误 请修正后再次操作');
+        return;
+    }
+
+    var productData = productEdit_getProductData();
+    Page.callEvent('product_data_has_changed', productData);
+    Page.returnToPage();
+}
+
+/*****************************************************************************
+ *                              确认订单模块
+ *****************************************************************************/
+
+/**
+ * 确认订单-组装订单详情实体  -- add by hkt
+ */
+function packageOrderDetailEntity(productAndgifts) {
+    var orderDeatilArray = [];
+    for (var j = 0; j < productAndgifts.length; j++) {
+        var orderDetailEntity = {};
+        var model = productAndgifts[j];
+        if (model['__row_template'] == 'productrow') {
+            orderDetailEntity.id = '';
+            orderDetailEntity.orderid = '';
+            orderDetailEntity.productid = model['productid'];
+            orderDetailEntity.productcode = model['productcode'];
+            orderDetailEntity.productname = model['productname'];
+            orderDetailEntity.batchcount = model['distributioncount'];
+            orderDetailEntity.singlecount = model['singlecount'];
+            orderDetailEntity.price = model['price'];
+            orderDetailEntity.amount = model['amount'];
+            orderDetailEntity.discountamount = model['discountamount'];
+            orderDetailEntity.finalamount = model['finalamount'];
+            orderDetailEntity.batchunit = model['distributionunit'];
+            orderDetailEntity.rate = model['unitconverrate'];
+            orderDetailEntity.salestype = model['salestype'];
+            orderDetailEntity.isgift = '0';
+            orderDetailEntity.promotioninfo = '';
+            orderDetailEntity.singleunit = model['singleunit'];
+            orderDetailEntity.costid = model['costid'];
+            orderDetailEntity.costname = '';
+            orderDetailEntity.boxfactor = '';
+        } else if (model['__row_template'] == 'giftrow') {
+            orderDetailEntity.id = '';
+            orderDetailEntity.orderid = '';
+            orderDetailEntity.productid = model['productid'];
+            orderDetailEntity.productcode = model['productcode'];
+            orderDetailEntity.productname = model['productname'];
+            orderDetailEntity.batchcount = model['distributioncount'];
+            orderDetailEntity.singlecount = model['singlecount'];
+            orderDetailEntity.price = '0.00';
+            orderDetailEntity.amount = '0.00';
+            orderDetailEntity.discountamount = '0.00';
+            orderDetailEntity.finalamount = '0.00';
+            orderDetailEntity.batchunit = model['distributionunit'];
+            orderDetailEntity.rate = model['unitconverrate'];
+            orderDetailEntity.salestype = '';
+            orderDetailEntity.isgift = '1';
+            orderDetailEntity.promotioninfo = '';
+            orderDetailEntity.singleunit = model['singleunit'];
+            orderDetailEntity.costid = model['costid'];
+            orderDetailEntity.costname = '';
+            orderDetailEntity.boxfactor = '';
+        }
+        orderDeatilArray.push(orderDetailEntity);
+    }
+
+    return orderDeatilArray;
+}
+
+/**
+ * 确认订单-页面数据初始化
+ */
+function confirmOrder_initView() {
+
+    var params = Page.getLinkParams();
+    if (params.length <= 0) {
+        return;
+    }
+
+
+    /**
+     *购物车数据
+     */
+    var shoppingcarts = params['shoppingcart'];
+
+    /**
+     *判断数据是否异常
+     */
+    if (shoppingcarts == null || Array.isArray(shoppingcarts) == false || shoppingcarts.length <= 0) {
+        return;
+    }
+
+    var products = new Array();
+    var gifts = new Array();
+    var otherproducts = new Array();
+    var totalprice = params['totalprice'] == null ? '0.00' : params['totalprice'];
+    var totalamount = params['totalamount'] == null ? '0.00' : params['totalamount'];
+    var discountamount = params['discountamount'] == null ? '0.00' : params['discountamount'];
+    var totalrebate = params['totalrebate'] == null ? '0.00' : params['totalrebate'];
+    var orderDeatilArray = [];
+    var orderId = params['orderid'] == null ? '' : params['orderid'];
+    var orderCode = params['ordercode'] == null ? '' : params['ordercode'];
+    var ordersourceId = params['ordersourceid']
+
+    Page.setValue('orderid', orderId);
+    Page.setValue('ordercode', orderCode);
+    Page.setValue('ordersourceid', ordersourceId);
+    Page.setValue('orderinputtype', params['orderinputtype']);
+
+    /**
+     *遍历购物车数据来获取产品列表和赠品列表数据
+     */
+    for (var i = 0; i < shoppingcarts.length; i++) {
+        var shoppingcart = shoppingcarts[i];
+        var promotion = shoppingcart['__sectionlist_header'];
+        var productAndgifts = shoppingcart['__sectionlist_rows'];
+
+        /**
+         *如果该组没有商品和赠品，直接跳过
+         */
+        if (productAndgifts == null || Array.isArray(productAndgifts) == false || productAndgifts.length <= 0) {
+            continue;
+        }
+
+        /**
+         *遍历数据，然后进行分组
+         */
+        for (var j = 0; j < productAndgifts.length; j++) {
+            var model = productAndgifts[j];
+            if (model['__row_template'] == 'productrow') {
+                if (model['salestype'] == productEdit_default_salestype()) {
+                    products.push(model);
+                } else {
+                    otherproducts.push(model);
+                }
+            } else if (model['__row_template'] == 'giftrow') {
+                model['promotionname'] = promotion['costname'];
+                gifts.push(model);
+            }
+        }
+
+        // 组装订单详情实体(用于提交订单) --add by hkt
+        orderDeatilArray = orderDeatilArray.concat(packageOrderDetailEntity(productAndgifts));
+        //var orderDeatilArray = packageOrderDetailEntity(productAndgifts);
+        //Page.setValue('order_detail_save', orderDeatilArray);
+    }
+    Page.setValue('order_detail_save', orderDeatilArray);
+
+    Page.getCtrl('ordermoney').value = totalprice.toString();
+    Page.getCtrl('orderproductmoney').value = totalamount.toString();
+    Page.getCtrl('orderrebate').value = totalrebate.toString();
+    Page.getCtrl('discountamount').value = discountamount.toString();
+
+    /**
+     *将产品数据绑定到产品表格控件
+     */
+    if (products.length > 0) {
+        var productSetter = ArrayCtrlSetter();
+        productSetter.modifySetter('productname', 'productname');
+        productSetter.modifySetter('price', 'price');
+        productSetter.modifySetter('distributioncount', 'distributioncount');
+        productSetter.modifySetter('singlecount', 'singlecount');
+        productSetter.modifySetter('finalamount', 'productmoney');
+        productSetter.modifySetter('discountamount', 'rebate');
+        Page.getArrayCtrl('producttable').updateList(products, productSetter);
+    } else {
+        Page.getCtrl('producttable').hidden = true;
+    }
+
+    /**
+     *将赠品数据绑定到赠品表格控件
+     */
+    if (gifts.length > 0) {
+        var giftSetter = ArrayCtrlSetter();
+        giftSetter.modifySetter('productname', 'giftname');
+        giftSetter.modifySetter('promotionname', 'promotionname');
+        giftSetter.modifySetter('giftcount', 'giftcount');
+        giftSetter.modifySetter('promotionunitname', 'giftunittype');
+        Page.getArrayCtrl('gifttable').updateList(gifts, giftSetter);
+    } else {
+        Page.getCtrl('gifttable').hidden = true;
+    }
+
+    /**
+     *将其它销售类型数据绑定到其它销售类型表格控件
+     */
+    if (otherproducts.length > 0) {
+        var otherProductSetter = ArrayCtrlSetter();
+        otherProductSetter.modifySetter('productname', 'otherproductname');
+        otherProductSetter.modifySetter('salestypename', 'salestypename');
+        otherProductSetter.modifySetter('distributioncount', 'otherdistributioncount');
+        otherProductSetter.modifySetter('singlecount', 'othersinglecount');
+        Page.getArrayCtrl('otherproducttable').updateList(otherproducts, otherProductSetter);
+    } else {
+        Page.getCtrl('otherproducttable').hidden = true;
+    }
+
+    /**
+     *订单数据
+     */
+    var orderdata = params['orderdata'];
+    var customercode = params['customercode'];
+    var ordergroup = params['ordergroup'];
+    Page.setValue("ordergroup", ordergroup);
+    Page.setValue("customercode", customercode);
+    //如果传过来的订单数据不为空，客户信息就从订单数据中获取，否则就通过接口获取
+    if (orderdata == null || orderdata.length == 0) {
+        /**
+         *确定订单查询客户信息
+         */
+        var input = {
+            'kx_order': {
+                'customercode': customercode != null ? customercode : 'TE00000062',
+                'ordergroup': (ordergroup != null && ordergroup.length > 0) ? ordergroup : '1'
+            }
+        };
+        var success = function(output) {
+            var model = output['kx_order'][0];
+            var customername = model['customername'];
+            var suppliercode = model['suppliercode'];
+            var suppliername = model['suppliername'];
+            var receiveraddr = model['receiveraddr'];
+            var receiver = model['receiver'];
+            var receivertel = model['receivertel'];
+            var salesman = model['salesman'];
+            var salesmanid = model['salesmanid'];
+            var isdirectsupply = model['isdirectsupply'];
+
+            Page.getCtrl('suppliername').value = suppliercode;
+            Page.getCtrl('customername').value = customername;
+            Page.getCtrl('receiver').value = receiver;
+            Page.getCtrl('receivertel').value = receivertel;
+            Page.getCtrl('receiveraddr').value = receiveraddr;
+            Page.getCtrl('厂家直供').value = isdirectsupply;
+            if (isdirectsupply == "0") {
+                Page.getCtrl('suppliername').hidden = false;
+            } else {
+                Page.getCtrl('suppliername').hidden = true;
+            }
+
+            // 暂存数据，用于订单提交 --add by hkt
+            Page.setValue("customername", customername);
+            Page.setValue("suppliercode", suppliercode);
+            Page.setValue("suppliername", suppliername);
+            Page.setValue("isdirectsupply", isdirectsupply);
+            Page.setValue("salesman", '');
+            Page.setValue("salesmanid", System.user().mbCode);
+            Page.setValue("receiver", receiver);
+            Page.setValue("receiveraddr", receiveraddr);
+            Page.setValue("receivertel", receivertel);
+        };
+
+        var fail = function(errorCode, msg) {
+            Page.alert(AlertType.error, msg != null ? msg : '数据获取失败');
+        };
+        var completion = function(result, output, msg) {
+            Page.closeProgress();
+        };
+        Page.openProgress('请稍后');
+        Model.requestServer('手机下单-根据客户编号查询客户信息', input, success, fail, completion);
+    } else {
+        var customername = orderdata['customername'];
+        var suppliercode = orderdata['suppliercode'];
+        var suppliername = orderdata['suppliername'];
+        var receiveraddr = orderdata['receiveraddr'];
+        var receiver = orderdata['receiver'];
+        var receivertel = orderdata['receivertel'];
+        var salesman = orderdata['salesman'];
+        var salesmanid = orderdata['salesmanid'];
+        var isdirectsupply = orderdata['isdirectsupply'];
+        var remark = orderdata['remark'];
+
+        Page.getCtrl('suppliername').value = suppliercode;
+        Page.getCtrl('customername').value = customername;
+        Page.getCtrl('receiver').value = receiver;
+        Page.getCtrl('receivertel').value = receivertel;
+        Page.getCtrl('receiveraddr').value = receiveraddr;
+        Page.getCtrl('厂家直供').value = isdirectsupply;
+        if (isdirectsupply == "0") {
+            Page.getCtrl('suppliername').hidden = false;
+        } else {
+            Page.getCtrl('suppliername').hidden = true;
+        }
+        Page.getCtrl('remark').value = remark;
+
+        // 暂存数据，用于订单提交 --add by hktx
+        Page.setValue("customername", customername);
+        Page.setValue("suppliercode", suppliercode);
+        Page.setValue("suppliername", suppliername);
+        Page.setValue("isdirectsupply", isdirectsupply);
+        Page.setValue("salesman", salesman);
+        Page.setValue("salesmanid", System.user().mbCode);
+        Page.setValue("receiver", receiver);
+        Page.setValue("receiveraddr", receiveraddr);
+        Page.setValue("receivertel", receivertel);
+        Page.setValue("ordertime", orderdata['ordertime']);
+    }
+
+}
+
+/**
+ * 确认订单-厂家直供控制下面供应商的显示与隐藏
+ */
+function setSupplierNameVisible() {
+    var isdirectsupply = Page.getCtrl('厂家直供').value;
+    if (isdirectsupply == "0") {
+        Page.getCtrl('suppliername').hidden = false;
+    } else {
+        Page.getCtrl('suppliername').hidden = true;
+    }
+    Page.applyLayout();
+};
+
+/**
+ * 确认订单-订单提交
+ */
+function submitdetail() {
+    /**
+     *订单保存
+     */
+    var keyGetter = CtrlValueGetter('key')
+    var textGetter = CtrlValueGetter('text')
+    var suppliercode = Page.getCtrl('suppliername').getValue(keyGetter)
+    var suppliername = Page.getCtrl('suppliername').getValue(textGetter)
+
+    if (Page.getCtrl('厂家直供').value != "0") {
+        suppliercode = '';
+        suppliername = '';
+    }
+
+    var kx_order_detail = Page.getValue('order_detail_save');
+    var input = {
+        'kx_order': {
+            'id': Page.getValue('orderid'),
+            'code': Page.getValue('ordercode'),
+            'customercode': Page.getValue('customercode'),
+            'customername': Page.getCtrl('customername').value,
+            'suppliercode': suppliercode,
+            'suppliername': suppliername,
+            'isdirectsupply': Page.getCtrl('厂家直供').value,
+            'ordertime': Page.getValue('ordertime') == null ? System.date().toString() : Page.getValue('ordertime'),
+            'salesman': Page.getValue('salesman'),
+            'salesmanid': Page.getValue('salesmanid'),
+            'amount': Page.getCtrl('orderproductmoney').value,
+            'discountamount1': Page.getCtrl('rebate').value,
+            'discountamount2': Page.getCtrl('discountamount').value,
+            'finalamount': Page.getCtrl('ordermoney').value,
+            'ordersourceid': Page.getValue('ordersourceid'),
+            'receiver': Page.getCtrl('receiver').value,
+            'receiveraddr': Page.getCtrl('receiveraddr').value,
+            'receivertel': Page.getCtrl('receivertel').value,
+            'remark': Page.getCtrl('remark').value,
+            'ordergroup': Page.getValue('ordergroup')
+        },
+        'kx_order_detail': Page.getValue('order_detail_save')
+    };
+
+    if (Page.constraintCheck() == false) {
+        Page.alert(AlertType.error, '数据有误 请修正后再次操作');
+        return;
+    }
+
+    var success = function(output) {
+        var orderinputtype = Page.getValue('orderinputtype');
+        switch (orderinputtype) {
+            case '1':
+                /** 拜访下单  返回终端店面工作 or 渠道客户拜访*/
+                Page.callEvent('clearshoppingcar', null);
+                if (Page.getValue('ordergroup') == '1') {
+                    Page.returnToPage('终端店面工作');
+                } else if (Page.getValue('ordergroup') == '2') {
+                    Page.returnToPage('渠道客户拜访');
+                }
+
+                break;
+
+            case '2':
+                /** 电话下单  返回订单管理*/
+                Page.callEvent('refreshlist', null);
+                Page.returnToPage('订单管理');
+                break;
+
+            case '3':
+                /** 编辑订单*/
+                Page.callEvent('refreshlist', null);
+                Page.callEvent('refreshorderdetail', null);
+                Page.returnToPage('订单详情');
+                break;
+        }
+
+        Page.callEvent('refreshoffline', null);
+    };
+    var fail = function(errorCode, msg) {
+        Page.alert(AlertType.error, msg != null ? msg : '订单保存失败');
+    };
+    var completion = function(result, output, msg) {
+
+        Page.closeProgress();
+    };
+
+    Page.openProgress('请稍后');
+    Model.requestServer('订单保存', input, success, fail, completion);
+}
+
+function submitdetail_visitWork() {
+    /**
+     *拜访流-订单保存
+     */
+    var keyGetter = CtrlValueGetter('key')
+    var textGetter = CtrlValueGetter('text')
+    var suppliercode = Page.getCtrl('suppliername').getValue(keyGetter)
+    var suppliername = Page.getCtrl('suppliername').getValue(textGetter)
+
+    if (Page.getCtrl('厂家直供').value != "0") {
+        suppliercode = '';
+        suppliername = '';
+    }
+
+    var kx_order_detail = Page.getValue('order_detail_save');
+    var input = {
+        'kx_order': {
+            'id': Page.getValue('orderid'),
+            'code': Page.getValue('ordercode'),
+            'customercode': Page.getValue('customercode'),
+            'customername': Page.getCtrl('customername').value,
+            'suppliercode': suppliercode,
+            'suppliername': suppliername,
+            'isdirectsupply': Page.getCtrl('厂家直供').value,
+            'ordertime': Page.getValue('ordertime') == null ? System.date().toString() : Page.getValue('ordertime'),
+            'salesman': Page.getValue('salesman'),
+            'salesmanid': Page.getValue('salesmanid'),
+            'amount': Page.getCtrl('orderproductmoney').value,
+            'discountamount1': Page.getCtrl('rebate').value,
+            'discountamount2': Page.getCtrl('discountamount').value,
+            'finalamount': Page.getCtrl('ordermoney').value,
+            'ordersourceid': Page.getValue('ordersourceid'),
+            'receiver': Page.getCtrl('receiver').value,
+            'receiveraddr': Page.getCtrl('receiveraddr').value,
+            'receivertel': Page.getCtrl('receivertel').value,
+            'remark': Page.getCtrl('remark').value,
+            'ordergroup': Page.getValue('ordergroup'),
+
+
+            'submitterdate': System.date().toString(),
+            'customerstatusid': System.uniqueid(),
+            'actualvisitid': System.uniqueid(),
+            'workrecordid': System.uniqueid()
+        },
+        'kx_order_detail': Page.getValue('order_detail_save'),
+        '__visitworkparams': VisitWork.currentStepSubmitParam()
+    };
+
+    if (Page.constraintCheck() == false) {
+        Page.alert(AlertType.error, '数据有误 请修正后再次操作');
+        return;
+    }
+
+    var success = function(output) {
+        // var orderinputtype = Page.getValue('orderinputtype');
+        // switch (orderinputtype) {
+        //     case '1': /** 拜访下单  返回终端店面工作 or 渠道客户拜访*/
+        //         Page.callEvent('clearshoppingcar', null);
+        //         Page.callEvent('visitworkrefreshlist', null);
+        //         VisitWork.gotoNextStep();
+
+        //         Model.runLogicScript('拜访流-订单保存', null, null, null, null);
+
+        //         /*
+        //         if (Page.getValue('ordergroup') == '1') {
+        //             Page.returnToPage('终端店面工作');
+        //         } else if (Page.getValue('ordergroup') == '2') {
+        //             Page.returnToPage('渠道客户拜访');
+        //         }
+        //         */
+
+        //         break;
+
+        //     case '2': /** 电话下单  返回订单管理*/
+        //         Page.callEvent('refreshlist', null);
+        //         Page.returnToPage('订单管理');
+        //         break;
+
+        //     case '3': /** 编辑订单*/
+        //         Page.callEvent('refreshlist', null);
+        //         Page.callEvent('refreshorderdetail', null);
+        //         Page.returnToPage('订单详情');
+        //         break;
+        // }
+
+        input.kx_order.id = output.kx_order.id;
+
+        Page.callEvent('clearshoppingcar', null);
+
+        var completion = function(result, output, msg) {
+
+            Page.closeProgress();
+
+            Page.callEvent('visitworkrefreshlist', null);
+
+            VisitWork.gotoNextStep();
+        };
+
+        Model.runLogicScript('拜访流-订单保存', input, null, null, completion);
+
+        //    Page.callEvent('refreshoffline', null);
+    };
+    var fail = function(errorCode, msg) {
+
+        Page.closeProgress();
+
+        Page.alert(AlertType.error, msg != null ? msg : '订单保存失败');
+    };
+    var completion = function(result, output, msg) {
+
+
+    };
+
+    Page.openProgress('请稍后');
+    Model.requestServer('拜访流-订单保存', input, success, fail, completion);
+}
+
+/*****************************************************************************
+ *                              订单列表模块
+ *****************************************************************************/
+
+/** 订单列表-跳转到购物车*/
+function linkToShoppingcart() {
+    var shoppingCar = Page.getValue('modify_shoppingcar');
+    Page.linkToPage('购物车', {
+        'shoppingcar': shoppingCar,
+        'rules': Page.getValue('_promotionRules'),
+        'old_shoppingcar': Page.getValue('old_shoppingcar'),
+        'total_discount': Page.getValue('total_discount'),
+        'kx_order': Page.getValue('kx_order'),
+        'customercode': Page.getValue('customercode'),
+        'orderinputtype': Page.getValue('orderinputtype'),
+        'ordersourceid': Page.getValue('ordersourceid'),
+        'ordergroup': Page.getValue('ordergroup')
+    });
+    Page.setValue('modify_shoppingcar', new Array())
+}
+
+function linkToShoppingcart_visitWork() {
+    var shoppingCar = Page.getValue('modify_shoppingcar');
+    Page.linkToPage('拜访流购物车', {
+        'shoppingcar': shoppingCar,
+        'rules': Page.getValue('_promotionRules'),
+        'old_shoppingcar': Page.getValue('old_shoppingcar'),
+        'total_discount': Page.getValue('total_discount'),
+        'kx_order': Page.getValue('kx_order'),
+        'customercode': Page.getValue('customercode'),
+        'orderinputtype': Page.getValue('orderinputtype'),
+        'ordersourceid': Page.getValue('ordersourceid'),
+        'ordergroup': Page.getValue('ordergroup')
+    });
+    Page.setValue('modify_shoppingcar', new Array())
+}
+
+/*****************************************************************************
+ *                              订单详情模块
+ *****************************************************************************/
+
+/**
+ * 订单详情-初始化
+ */
+function OrderDetail_initView() {
+
+    var params = Page.getLinkParams();
+    if (params.length <= 0) {
+        return;
+    }
+
+    // visitcontentid不为空，证明这是从历史拜访跳进来的;否则是从订单列表跳进来的
+    if (params['visitcontentid'] != null && params['visitcontentid'] != '') {
+        var id = params['visitcontentid'];
+        var code = '';
+        var input = {
+            'kx_order': {
+                'id': id,
+                'code': code
+            }
+        };
+    } else {
+        var id = params['id'];
+        var code = params['code'];
+        var input = {
+            'kx_order': {
+                'id': id,
+                'code': code
+            }
+        };
+    }
+
+    var success = function(output) {
+
+        Page.setValue('order_data', output);
+
+        /**
+         * 获取订单主表
+         */
+        var model = output['kx_order'];
+        var customername = model['customername'];
+        var suppliercode = model['suppliercode'];
+        var suppliername = model['suppliername'];
+        var receiveraddr = model['receiveraddr'];
+        var receiver = model['receiver'];
+        var receivertel = model['receivertel'];
+        var salesman = model['salesman'];
+        var salesmanid = model['salesmanid'];
+        var isdirectsupply = model['isdirectsupply'];
+        var code = model['code'];
+        var ordertime = model['ordertime'];
+        var status = model['status'];
+        var amount = model['amount'];
+        var discountamount2 = model['discountamount2'];
+        var finalamount = model['finalamount'];
+        var remark = model['remark'];
+        var ordergroup = model['ordergroup'];
+        // 暂存数据--add by hkt
+        Page.setValue("id", id);
+        Page.setValue("salesman", salesman);
+        Page.setValue("salesmanid", salesmanid);
+        Page.setValue("status", status);
+        Page.setValue("ordergroup", ordergroup);
+
+        Page.getCtrl('salesman').value = salesman;
+        Page.getCtrl('customername').value = customername;
+        Page.getCtrl('receiver').value = receiver;
+        Page.getCtrl('receivertel').value = receivertel;
+        Page.getCtrl('receiveraddr').value = receiveraddr;
+        Page.getCtrl('厂家直供').value = isdirectsupply;
+        Page.getCtrl('suppliername').value = suppliername;
+        if (isdirectsupply == "0") {
+            Page.getCtrl('suppliername').hidden = false;
+        } else {
+            Page.getCtrl('suppliername').hidden = true;
+        }
+        Page.getCtrl('code').value = code;
+        Page.getCtrl('ordertime').value = ordertime;
+        Page.getCtrl('status').value = status;
+        Page.getCtrl('amount').value = amount;
+        Page.getCtrl('discountamount2').value = discountamount2;
+        Page.getCtrl('finalamount').value = finalamount;
+        Page.getCtrl('remark').value = remark;
+
+
+        /**
+         * 获取产品信息
+         */
+        var products = new Array();
+        var gifts = new Array();
+        var otherproducts = new Array();
+        var orderDetails = output['kx_order_detail'];
+        for (var i = 0; i < orderDetails.length; i++) {
+            var orderDetail = orderDetails[i];
+            if (orderDetail['salestype'] == "954254124545871872" || orderDetail['salestype'] == "") {
+                if (orderDetail['isgift'] == "0") {
+                    products.push(orderDetail);
+                } else {
+                    if (orderDetail['giftunittype'] == "1") {
+                        orderDetail['giftcount'] = orderDetail['batchcount'];
+                        orderDetail['giftname'] = orderDetail['batchunit__dicvalue'];
+                    }
+                    if (orderDetail['giftunittype'] == "2") {
+                        orderDetail['giftcount'] = orderDetail['singlecount'];
+                        orderDetail['giftname'] = orderDetail['singleunit__dicvalue'];
+                    }
+                    gifts.push(orderDetail);
+                }
+            } else {
+                otherproducts.push(orderDetail);
+            }
+        }
+
+        /**
+         *将产品数据绑定到产品表格控件
+         */
+        if (products.length > 0) {
+            Page.getCtrl('producttable').hidden = false;
+            var productSetter = ArrayCtrlSetter();
+            productSetter.modifySetter('productname', 'productname');
+            productSetter.modifySetter('costname', 'costname');
+            productSetter.modifySetter('productbrand__dicvalue', 'productbrand');
+            productSetter.modifySetter('price', 'price');
+            productSetter.modifySetter('batchcount', 'batchcount');
+            productSetter.modifySetter('singlecount', 'singlecount');
+            productSetter.modifySetter('amount', 'productamount');
+            Page.getArrayCtrl('producttable').updateList(products, productSetter);
+        } else {
+            Page.getCtrl('producttable').hidden = true;
+        }
+
+        /**
+         *将赠品数据绑定到赠品表格控件
+         */
+        if (gifts.length > 0) {
+            Page.getCtrl('gifttable').hidden = false;
+            var giftSetter = ArrayCtrlSetter();
+            giftSetter.modifySetter('productname', 'giftname');
+            giftSetter.modifySetter('productbrand__dicvalue', 'giftproductbrand');
+            giftSetter.modifySetter('costname', 'promotionname');
+            giftSetter.modifySetter('giftcount', 'giftcount');
+            giftSetter.modifySetter('giftname', 'giftunittype');
+            Page.getArrayCtrl('gifttable').updateList(gifts, giftSetter);
+        } else {
+            Page.getCtrl('gifttable').hidden = true;
+        }
+
+        /**
+         *将其它销售类型数据绑定到其它销售类型表格控件
+         */
+        if (otherproducts.length > 0) {
+            Page.getCtrl('otherproducttable').hidden = false;
+            var otherProductSetter = ArrayCtrlSetter();
+            otherProductSetter.modifySetter('productname', 'otherproductname');
+            otherProductSetter.modifySetter('productbrand__dicvalue', 'otherproductbrand');
+            otherProductSetter.modifySetter('salestype__dicvalue', 'salestypename');
+            otherProductSetter.modifySetter('batchcount', 'otherbatchcount');
+            otherProductSetter.modifySetter('singlecount', 'othersinglecount');
+            Page.getArrayCtrl('otherproducttable').updateList(otherproducts, otherProductSetter);
+        } else {
+            Page.getCtrl('otherproducttable').hidden = true;
+        }
+
+
+        /**
+         * 根据订单状态设置底部按钮显示
+         * 审批人自动显示“通过”和“不通过”按钮，因为关联了“审批权限”功能节点；
+         * 不是“待审核”状态，隐藏“通过”和“不通过”按钮；
+         * "审核不通过"状态，显示“编辑”和“作废”按钮（仅限订单业务员）
+         */
+        var userinfoID = System.user().userinfoID;
+        var functioncodes = System.functionCodes();
+        var auditpassfunctioncode = Page.getCtrl('auditpass').getProperty('functionCode');
+        var auditfailurefunctioncode = Page.getCtrl('auditfailure').getProperty('functionCode');
+        if (functioncodes.indexOf(auditpassfunctioncode) > -1) {
+            Page.getCtrl('auditpass').hidden = false;
+        }
+        if (functioncodes.indexOf(auditfailurefunctioncode) > -1) {
+            Page.getCtrl('auditfailure').hidden = false;
+        }
+        if (status != "30") {
+            Page.getCtrl('auditpass').hidden = true;
+            Page.getCtrl('auditfailure').hidden = true;
+        }
+        if (status == "100" && salesmanid == System.user().mbCode) {
+            Page.getCtrl('orderedit').hidden = false;
+            Page.getCtrl('ordercancel').hidden = false;
+        } else {
+            Page.getCtrl('orderedit').hidden = true;
+            Page.getCtrl('ordercancel').hidden = true;
+        }
+        Page.applyLayout();
+    };
+
+    var fail = function(errorCode, msg) {
+        if (errorCode == 800001) {
+            Page.getCtrl('auditpass').hidden = true;
+            Page.getCtrl('auditfailure').hidden = true;
+            Page.getCtrl('orderedit').hidden = true;
+            Page.getCtrl('ordercancel').hidden = true;
+            Page.applyLayout();
+        }
+        Page.alert(AlertType.error, msg != null ? msg : '数据获取失败');
+    };
+    var completion = function(result, output, msg) {
+        Page.closeProgress();
+    };
+    Page.openProgress('请稍后');
+    Model.requestServer('获取订单详情', input, success, fail, completion);
+
+}
+
+/**
+ * 订单详情-订单作废
+ */
+function OrderCancel() {
+    var id = Page.getValue("id");
+    var status = Page.getValue("status");
+    var salesmanid = Page.getValue("salesmanid");
+    var input = {
+        'kx_order': {
+            'id': id,
+            'status': status,
+            'salesmanid': salesmanid
+        }
+    };
+    var success = function(output) {
+
+        Page.alert(AlertType.info, '已处理');
+        OrderDetail_initView();
+        Page.applyLayout();
+    }
+    var fail = function(errorCode, msg) {
+        Page.alert(AlertType.error, msg != null ? msg : '数据处理失败');
+    };
+    var completion = function(result, output, msg) {
+        Page.closeProgress();
+    };
+
+    var cancel = function() {
+
+    };
+    var confirm = function() {
+        Page.openProgress('请稍后');
+        Model.requestServer('订单作废', input, success, fail, completion);
+    };
+
+    var alertChoice = new AlertChoice();
+    alertChoice.append('取消', cancel);
+    alertChoice.append('确定', confirm);
+    Page.alert(AlertType.info, '确认要作废该订单吗？', alertChoice);
+}
+
+/**
+ * 订单详情-订单审核通过
+ */
+function OrderAuditComplete() {
+    var id = Page.getValue("id");
+    //  90-完成 100-审核不通过
+    var status = "1";
+    var input = {
+        'kx_order': [{
+            'id': id,
+            'status': status
+        }]
+    };
+    var success = function(output) {
+        Page.alert(AlertType.info, '已处理');
+        OrderDetail_initView();
+        Page.applyLayout();
+    }
+    var fail = function(errorCode, msg) {
+        Page.alert(AlertType.error, msg != null ? msg : '数据处理失败');
+    };
+    var completion = function(result, output, msg) {
+        Page.closeProgress();
+    };
+    Page.openProgress('请稍后');
+    Model.requestServer('订单审核', input, success, fail, completion);
+}
+
+/**
+ * 订单详情-订单审核不通过
+ */
+function OrderAuditFailure() {
+    var id = Page.getValue("id");
+    var status = "0";
+    var input = {
+        'kx_order': [{
+            'id': id,
+            'status': status
+        }]
+    };
+    var success = function(output) {
+        Page.alert(AlertType.info, '已处理');
+        OrderDetail_initView();
+        Page.applyLayout();
+    }
+    var fail = function(errorCode, msg) {
+        Page.alert(AlertType.error, msg != null ? msg : '数据处理失败');
+    };
+    var completion = function(result, output, msg) {
+        Page.closeProgress();
+    };
+    Page.openProgress('请稍后');
+    Model.requestServer('订单审核', input, success, fail, completion);
+}
+
+/**
+ * 订单详情-订单编辑跳转购物车
+ */
+function linkshoppingcar() {
+
+    var order = Page.getValue('order_data');
+    var params = {
+        'order_data': order,
+        'customercode': order.kx_order.customercode,
+        'orderdate': order.kx_order.ordertime,
+        'orderinputtype': '3',
+        'ordersourceid': order.kx_order.ordersourceid,
+        'ordergroup': order.kx_order.ordergroup
+    };
+
+    Page.linkToPage('订单--产品列表', params);
+
+}
+
+/*****************************************************************************
+ *                              产品列表模块
+ *****************************************************************************/
+
+
+
+/* 购物车-链接到订单详情 */
+function linkToOrderInfoPage() {
+
+    if (Page.constraintCheck(ArrayCtrlRowGetterScopeType.all) == false) {
+        Page.alert(AlertType.error, '数据有误 请修正后再次操作');
+        return;
+    }
+
+    var shoppingcart = Page.getValue('_promotionData');
+    if (shoppingcart.length <= 0) {
+        Page.alert(AlertType.info, '请添加产品');
+        return;
+    }
+    var totaldiscount = (Page.getCtrl('total_discount').value == null || Page.getCtrl('total_discount').value == '') ? '0.00' : toDecimal(Page.getCtrl('total_discount').value);
+    var totalAmount = toDecimal(countTotalAmountForPromotions(shoppingcart));
+    var totalRebate = toDecimal(countTotalRebateForPromotions(shoppingcart));
+    var orderId = '';
+    var orderCode = '';
+    if (Page.getValue('kx_order') != null) {
+        var orderId = Page.getValue('kx_order')['id'];
+        var orderCode = Page.getValue('kx_order')['code'];
+    }
+
+
+    Page.linkToPage('确认订单', {
+        'customercode': Page.getValue('customercode'),
+        'ordergroup': Page.getValue('ordergroup'),
+        'totalprice': toDecimal(Page.getCtrl('total_price').value),
+        /** 产品合计 扣除优惠与返利*/
+        'shoppingcart': shoppingcart,
+        'discountamount': totaldiscount,
+        /** 整单优惠*/
+        'totalamount': totalAmount,
+        /** 产品总金额 不扣除优惠与返利*/
+        'totalrebate': totalRebate,
+        /** 返利合计*/
+        'ordersourceid': Page.getValue('ordersourceid') /**1.拜访订单 2.电话订单*/ ,
+        'orderid': orderId,
+        'ordercode': orderCode,
+        'orderinputtype': Page.getValue('orderinputtype'),
+        'orderdata': Page.getValue('kx_order')
+    });
+}
+
+function linkToOrderInfoPage_visitWork() {
+
+    if (Page.constraintCheck(ArrayCtrlRowGetterScopeType.all) == false) {
+        Page.alert(AlertType.error, '数据有误 请修正后再次操作');
+        return;
+    }
+
+    var shoppingcart = Page.getValue('_promotionData');
+    if (shoppingcart.length <= 0) {
+        Page.alert(AlertType.info, '请添加产品');
+        return;
+    }
+    var totaldiscount = (Page.getCtrl('total_discount').value == null || Page.getCtrl('total_discount').value == '') ? '0.00' : toDecimal(Page.getCtrl('total_discount').value);
+    var totalAmount = toDecimal(countTotalAmountForPromotions(shoppingcart));
+    var totalRebate = toDecimal(countTotalRebateForPromotions(shoppingcart));
+    var orderId = '';
+    var orderCode = '';
+    if (Page.getValue('kx_order') != null) {
+        var orderId = Page.getValue('kx_order')['id'];
+        var orderCode = Page.getValue('kx_order')['code'];
+    }
+
+
+    Page.linkToPage('拜访流确认订单', {
+        'customercode': Page.getValue('customercode'),
+        'ordergroup': Page.getValue('ordergroup'),
+        'totalprice': toDecimal(Page.getCtrl('total_price').value),
+        /** 产品合计 扣除优惠与返利*/
+        'shoppingcart': shoppingcart,
+        'discountamount': totaldiscount,
+        /** 整单优惠*/
+        'totalamount': totalAmount,
+        /** 产品总金额 不扣除优惠与返利*/
+        'totalrebate': totalRebate,
+        /** 返利合计*/
+        'ordersourceid': Page.getValue('ordersourceid') /**1.拜访订单 2.电话订单*/ ,
+        'orderid': orderId,
+        'ordercode': orderCode,
+        'orderinputtype': Page.getValue('orderinputtype'),
+        'orderdata': Page.getValue('kx_order')
+    });
+}
+
+/* 购物车-删除一个产品 */
+function delAProduct() {
+    var promotions = Page.getValue('_promotionData');
+    var rules = Page.getValue('_promotionRules');
+    var setter = prepareShoppingCartSetter();
+    var shoppingCart = new ShoppingCart(promotions, rules, setter);
+
+    var curRowIndexPath = Page.getArrayCtrl('shoppingcart').getFocusRowIndexPath();
+    var productid = promotions[curRowIndexPath.section].__sectionlist_rows[curRowIndexPath.row].productid;
+    var promotionid = promotions[curRowIndexPath.section].__sectionlist_header.promotionid;
+    var salestype = promotions[curRowIndexPath.section].__sectionlist_rows[curRowIndexPath.row].salestype;
+    var ctrlUpdateOperations = shoppingCart.delProductAt(curRowIndexPath);
+    Page.getArrayCtrl('shoppingcart').updateListWithOperations(ctrlUpdateOperations);
+    synchronizeShoppingCartToPage(shoppingCart.promotions);
+
+    var totalAmount = toFloat(countTotalAmountForPromotions(shoppingCart.promotions));
+    var upperlimit = toDecimal((totalAmount < 999999.99 ? totalAmount : 999999.99).toString())
+    Page.getCtrl('total_discount').setProperty('upperlimit', upperlimit);
+    Page.getCtrl('total_price').value = countTotalPriceForPromotions(shoppingCart.promotions);
+}
+
+
+/**
+ * 购物车-点击购物车中的某个产品后进入产品编辑页面
+ */
+function shoppingCart_linkToProductEditView() {
+    var promotions = Page.getValue('_promotionData');
+    var rules = Page.getValue('_promotionRules');
+    var shoppingCart = new ShoppingCart(promotions, rules);
+    var curRowIndexPath = Page.getArrayCtrl('shoppingcart').getFocusRowIndexPath();
+    var cellData = promotions[curRowIndexPath.section].__sectionlist_rows[curRowIndexPath.row];
+    /** 通知编辑弹窗页面 数据来源是订单编辑*/
+    cellData['editProduct'] = '1';
+    Page.linkToPage('订单编辑', cellData);
+}
+
+/**
+ * 购物车-在接收到产品编辑页面编辑后的产品数据后，更新购物车
+ */
+function shoppingCart_productDataHasChanged(product) {
+    var indexPath = Page.getArrayCtrl('shoppingcart').getFocusRowIndexPath();
+    var promotions = Page.getValue('_promotionData');
+    var rules = Page.getValue('_promotionRules');
+    var setter = prepareShoppingCartSetter();
+    var shoppingCart = new ShoppingCart(promotions, rules, setter);
+
+    var operations = shoppingCart.updateWithProduct(product, indexPath);
+    synchronizeShoppingCartToPage(shoppingCart.promotions);
+    Page.getArrayCtrl('shoppingcart').updateListWithOperations(operations);
+    var totalAmount = toFloat(countTotalAmountForPromotions(shoppingCart.promotions));
+    var upperlimit = toDecimal((totalAmount < 999999.99 ? totalAmount : 999999.99).toString())
+    Page.getCtrl('total_discount').setProperty('upperlimit', upperlimit);
+    Page.getCtrl('total_price').value = countTotalPriceForPromotions(shoppingCart.promotions);
+
+    /** 如果为正常销售类型 则隐藏不显示*/
+    if (shoppingCart.promotions != null) {
+        var sectionLength = shoppingCart.promotions.length;
+
+        for (var section = 0; section < sectionLength; section++) {
+            var promotion = shoppingCart.promotions[section];
+            for (var row = 0; row < promotion.__sectionlist_rows.length; row++) {
+                var rowCtrl = Page.getArrayCtrl('shoppingcart').getRowAtIndexPath(IndexPath(section, row));
+                var salestypeCtrl = rowCtrl.getCtrl('salestype_name');
+                var salestype = salestypeCtrl.value;
+                salestypeCtrl.hidden = (salestype == '正常销售');
+            }
+        }
+        Page.applyLayout();
+    }
+}
+
+/** 购物车-添加产品*/
+function addAProduct() {
+
+    Page.returnToPage();
+    var shoppingcart = Page.getValue('_promotionData');
+    var totaldiscount = Page.getCtrl('total_discount').value;
+    Page.callEvent('returnToListFromShoppingCart', { 'shoppingcart': shoppingcart, 'discountamount': totaldiscount });
+}
+
+/** 购物车-返回订单列表回调事件*/
+function returnToListFromShoppingCart(data) {
+    Page.setValue('old_shoppingcar', data['shoppingcart']);
+    Page.setValue('total_discount', data['discountamount']);
+    var shoppingCarData = data['shoppingcart'];
+    var shoppingCar = new Array();
+    var count = 0;
+    for (var i = 0; i < shoppingCarData.length; i++) {
+        var products = shoppingCarData[i].__sectionlist_rows;
+        for (var j = 0; j < products.length; j++) {
+            var product = products[j];
+            if (product['__row_template'] == "productrow") {
+                shoppingCar.push(product)
+                count++;
+            }
+        }
+    }
+    Page.setValue('shoppingcar', shoppingCar);
+    Page.getCtrl('total_product_type_num').value = count.toString();
+}
+
+/** 购物车-赠品数量改变*/
+function giftNumberChanged() {
+    var curRowIndexPath = Page.getArrayCtrl('shoppingcart').getFocusRowIndexPath();
+    var data = Page.getCtrl('shoppingcart').value;
+    var giftNumber = data[curRowIndexPath.section].__sectionlist_rows[curRowIndexPath.row].gift_number;
+
+    var promotionData = Page.getValue('_promotionData');
+    var giftData = promotionData[curRowIndexPath.section].__sectionlist_rows[curRowIndexPath.row];
+
+    giftData.giftcount = giftNumber;
+    if (giftData.promotionunittype == '1') {
+        giftData.distributioncount = giftNumber
+    } else if (giftData.promotionunittype == '2') {
+        giftData.singlecount = giftNumber
+    }
+
+    Page.setValue('_promotionData', promotionData);
+}
+
+/** 购物车-订单数据转化为购物车数据 */
+function convertOrderDataToPromotionData(orderData) {
+    var order = orderData['kx_order'] == null ? new Array() : orderData['kx_order'];
+    var order_details = orderData['kx_order_detail'] == null ? new Array() : orderData['kx_order_detail'];
+    var products = orderData['kx_kq_product'] == null ? new Array() : orderData['kx_kq_product'];
+
+    var promotions = new Array();
+
+    for (var i = 0; i < order_details.length; i++) {
+        var order_detail = order_details[i];
+        var product = {};
+
+        var promotionId = order_detail['costid'];
+        var productId = order_detail['productid'];
+
+        for (var j = 0; j < products.length; j++) {
+            var _product = products[j];
+            if (_product.id == productId) {
+                product = _product;
+                break;
+            }
+        }
+
+        var promotion = {
+            '__sectionlist_header': {},
+            '__sectionlist_rows': new Array()
+        };
+
+        for (var p = 0; p < promotions.length; p++) {
+            var _promotion = promotions[p];
+            if (_promotion.__sectionlist_header.promotionid == promotionId) {
+                promotion = _promotion;
+                promotions.splice(p, 1);
+                break;
+            }
+        }
+
+
+
+        var __row_template = order_detail['isgift'] == '1' ? 'giftrow' : 'productrow';
+        var giftCount = '';
+        if (order_detail['isgift'] == '1') {
+            giftCount = order_detail['giftunittype'] == '1' ? order_detail['batchcount'] : order_detail['singlecount'];
+        }
+
+        promotion.__sectionlist_header.promotionid = order_detail['costid'];
+        promotion.__sectionlist_header.costid = order_detail['costid'];
+        promotion.__sectionlist_header.costname = order_detail['costname'] == null || order_detail['costname'].length == 0 ? '无活动' : order_detail['costname'];
+
+        var batchunit__dicvalue = order_detail['batchunit__dicvalue'] == null ? '' : order_detail['batchunit__dicvalue'];
+        var salestype__dicvalue = order_detail['salestype__dicvalue'] == null ? '' : order_detail['salestype__dicvalue'];
+        var singleunit__dicvalue = order_detail['singleunit__dicvalue'] == null ? '' : order_detail['singleunit__dicvalue'];
+
+        var productcount = '';
+        var distributioncount = order_detail['batchcount'];
+        var distributionunitname = batchunit__dicvalue;
+        var singlecount = order_detail['singlecount'];
+        var singleunitname = singleunit__dicvalue;
+        var promotionunittype = order_detail['promotionunittype'];
+        if (promotionunittype == null) {
+            promotionunittype = order_detail['giftunittype'];
+        }
+
+        if (distributioncount.length > 0) {
+            productcount = distributioncount + distributionunitname;
+        }
+        if (singlecount.length > 0) {
+            productcount = productcount + singlecount + singleunitname;
+        }
+
+        var sectionlist_row = {
+            '__row_template': __row_template,
+            'adviceprice': product['adviceprice'],
+            'amount': order_detail['amount'],
+            'boxweight': product['boxweight'],
+            'costid': order_detail['costid'],
+            'costname': order_detail['costname'],
+            'distributionbarcode': product['distributionbarcode'],
+            'distributioncount': order_detail['batchcount'],
+            'distributionunit': order_detail['batchunit'],
+            'distributionunitname': batchunit__dicvalue,
+            'finalamount': order_detail['finalamount'],
+            'maxprice': product['maxprice'],
+            'minprice': product['minprice'],
+            'objtype': product['objtype'],
+            'price': order_detail['price'],
+            'productbrand': product['productbrand'],
+            'productcategory': product['productcategory'],
+            'productcode': order_detail['productcode'],
+            'productcount': productcount,
+            'productid': order_detail['productid'],
+            'productimage': order_detail['productimage'],
+            'productname': order_detail['productname'],
+            'promotionid': order_detail['costid'],
+            'promotions': order_detail['promotions'],
+            'salestype': order_detail['salestype'],
+            'salestypename': salestype__dicvalue,
+            'seq': product['seq'],
+            'shortname': product['shortname'],
+            'singlebarcode': product['singlebarcode'],
+            'singlecount': order_detail['singlecount'],
+            'singleunit': order_detail['singleunit'],
+            'singleunitname': singleunit__dicvalue,
+            'unitconverrate': order_detail['rate'],
+            'promotionunittype': promotionunittype,
+            'giftcount': giftCount
+        };
+        promotion.__sectionlist_rows.push(sectionlist_row);
+
+        promotions.push(promotion);
+
+    }
+
+    return { 'promotions': promotions, 'kx_order': order };
+}
+
+/** 购物车-初始化购物车显示的产品数据 */
+function productListInit() {
+    var linkParams = Page.getLinkParams() == null ? {} : Page.getLinkParams();
+
+    if (typeof(linkParams['orderinputtype']) == 'string' && linkParams['orderinputtype'].length > 0) {
+        Page.setValue('orderinputtype', linkParams['orderinputtype']);
+    }
+
+    Page.setValue('ordersourceid', typeof(linkParams['ordersourceid']) == 'undefined' ? "" : linkParams['ordersourceid']);
+
+    if (typeof(linkParams['ordergroup']) == 'string' && linkParams['ordergroup'].length > 0) {
+        Page.setValue('ordergroup', linkParams['ordergroup']);
+    }
+
+    if ((typeof(linkParams['order_data']) != 'undefined') && linkParams['order_data'] != null) {
+        var data = convertOrderDataToPromotionData(linkParams['order_data']);
+        Page.setValue('kx_order', data['kx_order']);
+        Page.setValue('old_shoppingcar', data['promotions']);
+        Page.setValue('total_discount', data['kx_order']['discountamount2']);
+
+        var shoppingCarData = data['promotions'];
+        var shoppingCar = new Array();
+        var count = 0;
+        for (var i = 0; i < shoppingCarData.length; i++) {
+            var products = shoppingCarData[i].__sectionlist_rows;
+            for (var j = 0; j < products.length; j++) {
+                var product = products[j];
+                if (product['__row_template'] == "productrow") {
+                    shoppingCar.push(product)
+                    count++;
+                }
+            }
+        }
+        Page.setValue('shoppingcar', shoppingCar);
+        Page.getCtrl('total_product_type_num').value = count.toString();
+    }
+
+}
+
+/** 购物车-整单优惠值改变事件*/
+function totalDiscountChanged() {
+    Page.getCtrl('total_price').value = countTotalPriceForPromotions(Page.getValue('_promotionData'));
+}
+
+/** 购物车-产品列表页面刷新购物车数据逻辑*/
+function productList_refreshShoppingCartData(productData) {
+    var shoppingCar = Page.getValue('shoppingcar');
+    if (shoppingCar == null) {
+        shoppingCar = new Array();
+    }
+    for (var i = 0; i < shoppingCar.length; i++) {
+        var sc = shoppingCar[i];
+        if (sc.productid == productData.productid && sc.promotionid == productData.promotionid && sc.salestype == productData.salestype) {
+            productList_mergeProduct(sc, productData);
+            shoppingCar.splice(i, 1);
+            break;
+        }
+    }
+    shoppingCar.push(productData);
+    Page.setValue('shoppingcar', shoppingCar);
+    var count = shoppingCar.length.toString();
+    Page.getCtrl('total_product_type_num').value = count;
+
+    var modify_shoppingCar = Page.getValue('modify_shoppingcar');
+    if (modify_shoppingCar == null) {
+        modify_shoppingCar = new Array();
+    }
+    for (var i = 0; i < modify_shoppingCar.length; i++) {
+        var sc = modify_shoppingCar[i];
+        if (sc.productid == productData.productid && sc.promotionid == productData.promotionid && sc.salestype == productData.salestype) {
+            productList_mergeProduct(sc, productData);
+            modify_shoppingCar.splice(i, 1);
+            break;
+        }
+    }
+    modify_shoppingCar.push(productData);
+    Page.setValue('modify_shoppingcar', modify_shoppingCar);
+}
+
+/** 购物车-合并产品 */
+function productList_mergeProduct(from, to) {
+
+    function toIntNumber(target) {
+        var result = parseInt(target);
+        return isNaN(result) ? '' : result;
+    }
+
+    function toFloatNumber(target) {
+        var result = parseFloat(target);
+        return isNaN(result) ? '' : result;
+    }
+
+    if (typeof(from) == 'undefined' || typeof(to) == 'undefined' || from == null || to == null) {
+        return;
+    }
+    var from_distributioncount = from['distributioncount'];
+    var from_price = from['price'];
+    var from_singlecount = from['singlecount'];
+    var from_discountamount = from['discountamount'];
+
+    var to_distributioncount = to['distributioncount'];
+    var to_price = to['price'];
+    var to_singlecount = to['singlecount'];
+    var to_discountamount = to['discountamount'];
+
+    to_distributioncount = toIntNumber(from_distributioncount) + toIntNumber(to_distributioncount) + '';
+    to_singlecount = toIntNumber(from_singlecount) + toIntNumber(to_singlecount) + '';
+    to_discountamount = toIntNumber(from_discountamount) + toIntNumber(to_discountamount) + '';
+
+    to['distributioncount'] = to_distributioncount;
+    to['singlecount'] = to_singlecount;
+    to['discountamount'] = to_discountamount;
+
+    var productcount = '';
+    if (to_distributioncount.length > 0) {
+        productcount = to_distributioncount + to.distributionunitname;
+    }
+    if (to_singlecount.length > 0) {
+        productcount = productcount + to_singlecount + to.singleunitname;
+    }
+    to['productcount'] = productcount;
+}
+
+/** 购物车-获取产品列表传入的活动规则 */
+function shoppingCartGetRules() {
+    var linkParams = Page.getLinkParams();
+    var rules = linkParams['rules'];
+    if (rules == null) {
+        getRules();
+    } else {
+        Page.setValue('_promotionRules', rules);
+    }
+}
+
+/******************************************
+ *               初始化购物车
+ ******************************************/
+
+/** 初始化购物车 */
+function createShoppingCart() {
+
+    initShoppingCart();
+
+    function initShoppingCart() {
+        var linkParams = Page.getLinkParams();
+
+        Page.setValue('kx_order', linkParams['kx_order']);
+        Page.setValue('customercode', linkParams['customercode']);
+        Page.setValue('ordergroup', linkParams['ordergroup']);
+        Page.setValue('orderinputtype', linkParams['orderinputtype']);
+        Page.setValue('ordersourceid', linkParams['ordersourceid']);
+
+        var oldShoppingCart = linkParams['old_shoppingcar'];
+        if (oldShoppingCart == null || Array.isArray(oldShoppingCart) == false) {
+            oldShoppingCart = [];
+        }
+        var setter = prepareShoppingCartSetter();
+
+        var shoppingCart = new ShoppingCart(oldShoppingCart, Page.getValue('_promotionRules'), setter);
+
+        var products = linkParams['shoppingcar'];
+        shoppingCart.updateWithProducts(products);
+        Page.setValue('_promotionData', shoppingCart.promotions);
+
+        Page.getArrayCtrl('shoppingcart').updateList(shoppingCart.promotions, setter);
+        Page.getCtrl('total_discount').value = (linkParams['total_discount'] == null ? '' : linkParams['total_discount']);
+
+        var totalAmount = toFloat(countTotalAmountForPromotions(shoppingCart.promotions));
+        var upperlimit = toDecimal((totalAmount < 999999.99 ? totalAmount : 999999.99).toString())
+        Page.getCtrl('total_discount').setProperty('upperlimit', upperlimit);
+        Page.getCtrl('total_price').value = countTotalPriceForPromotions(shoppingCart.promotions);
+
+
+        /** 如果为正常销售类型 则隐藏不显示*/
+        if (shoppingCart.promotions != null) {
+            var sectionLength = shoppingCart.promotions.length;
+
+            for (var section = 0; section < sectionLength; section++) {
+                var promotion = shoppingCart.promotions[section];
+                for (var row = 0; row < promotion.__sectionlist_rows.length; row++) {
+                    var rowCtrl = Page.getArrayCtrl('shoppingcart').getRowAtIndexPath(IndexPath(section, row));
+                    var salestypeCtrl = rowCtrl.getCtrl('salestype_name');
+                    var salestype = salestypeCtrl.value;
+                    salestypeCtrl.hidden = (salestype == '正常销售');
+
+                    if (shoppingCart.promotions[section].__sectionlist_rows[row].__row_template == 'giftrow') {
+                        var giftNumberCtrl = rowCtrl.getCtrl('gift_number');
+                        var giftRow = shoppingCart.promotions[section].__sectionlist_rows[row];
+                        var unitName = ''
+                        if (typeof(giftRow.distributionunitname) == 'string' && giftRow.distributionunitname.length > 0) {
+                            unitName = giftRow.distributionunitname;
+                        } else if (typeof(giftRow.singleunitname) == 'string' && giftRow.singleunitname.length > 0) {
+                            unitName = giftRow.singleunitname;
+                        }
+                        giftNumberCtrl.setProperty('unit', unitName);
+                    }
+                }
+            }
+            Page.applyLayout();
+        }
+
+    };
+}
+
+function prepareShoppingCartSetter() {
+    var setter = ArrayCtrlSetter('__data');
+    var memoryValueKeys = new Array('__row_template');
+    for (var i = 0; i < memoryValueKeys.length; i++) {
+        var key = memoryValueKeys[i];
+        setter.append(key, '', '');
+    }
+    setter.append('costname', 'promotion_name', '');
+    setter.append('productname', 'product_name', '');
+    setter.append('price', 'product_price', '');
+    setter.append('productcount', 'product_number', '');
+    setter.append('productname', 'gift_name', '');
+    setter.append('giftcount', 'gift_number', '');
+    setter.append('productimage', 'product_image', '');
+    setter.append('productimage', 'gift_image', '');
+    setter.append('salestype', 'product_salestype', '');
+    setter.append('salestypename', 'salestype_name', '');
+
+    return setter;
+}
+
+
+/******************************************
+ *             购物车数据对象
+ ******************************************/
+
+/** 同步购物车的数据到内存*/
+function synchronizeShoppingCartToPage(promotionData) {
+
+    Page.setValue('_promotionData', promotionData)
+}
+
+/**
+ * 计算该产品总价 = 数量 * 单价 - 数量 * 返利
+ * @param {*} product  产品数据
+ */
+function calculatePriceForProduct(product) {
+    var price = 0;
+    var num = 0
+    if (product.distributioncount.length > 0) {
+        price = product.distributioncount * product.price;
+        num = product.distributioncount;
+    }
+    if (product.singlecount.length > 0) {
+        price = price + product.singlecount * (product.price / product.unitconverrate);
+        num = num + product.singlecount / product.unitconverrate;
+    }
+    price = price - toFloat(product.discountamount) * num;
+    return price;
+};
+
+/**
+ * 计算该产品总金额 = 数量 * 单价
+ * @param {*} product
+ */
+function calculateAmountForProduct(product) {
+    var price = 0;
+    var num = 0
+    if (product.distributioncount.length > 0) {
+        price = product.distributioncount * product.price;
+    }
+    if (product.singlecount.length > 0) {
+        price = price + product.singlecount * (product.price / product.unitconverrate);
+    }
+    return price;
+}
+
+/**
+ * 计算所有产品总价
+ * @param {*} promotions 活动为维度的订单数据
+ */
+function countTotalPriceForPromotions(promotions) {
+    var totalPrice = 0;
+    for (var i = 0; i < promotions.length; i++) {
+        var promotion = promotions[i];
+        for (var j = 0; j < promotion.__sectionlist_rows.length; j++) {
+            var product = promotion.__sectionlist_rows[j];
+            if (product.isgift == null || product.isgift != '1') {
+                totalPrice = totalPrice + calculatePriceForProduct(product);
+            }
+        }
+    }
+
+    totalPrice = totalPrice - toFloat(Page.getCtrl('total_discount').value);
+
+    return toDecimal(totalPrice.toString());
+}
+
+/** 计算总金额 = 数目 * 单价 */
+function countTotalAmountForPromotions(promotions) {
+    var totalAmount = 0;
+    for (var i = 0; i < promotions.length; i++) {
+        var promotion = promotions[i];
+        for (var j = 0; j < promotion.__sectionlist_rows.length; j++) {
+            var product = promotion.__sectionlist_rows[j];
+            if (product.isgift == null || product.isgift != '1') {
+                totalAmount = totalAmount + calculateAmountForProduct(product);
+            }
+        }
+    }
+
+    return totalAmount.toString();
+}
+
+/** 计算总返利*/
+function countTotalRebateForPromotions(promotions) {
+    var totalRebate = 0;
+    for (var i = 0; i < promotions.length; i++) {
+        var promotion = promotions[i];
+        for (var j = 0; j < promotion.__sectionlist_rows.length; j++) {
+            var product = promotion.__sectionlist_rows[j];
+            if (product.isgift == null || product.isgift != '1') {
+                var num = 0
+                if (product.distributioncount.length > 0) {
+                    num = product.distributioncount;
+                }
+                if (product.singlecount.length > 0) {
+                    num = num + product.singlecount / product.unitconverrate;
+                }
+                totalRebate = totalRebate + toFloat(product.discountamount) * num;
+            }
+        }
+    }
+
+    return totalRebate.toString();
+}
+
+function ShoppingCart(promotions, rules, setter) {
+    /* 以活动为维度存储购物车的数据 */
+    this.promotions = promotions;
+    this.rules = rules;
+    this.setter = setter;
+};
+
+/** 删除指定位置的商品，并删除与之相关的赠品 */
+ShoppingCart.prototype.delProductAt = function(indexPath) {
+    if (indexPath == null) {
+        return null;
+    }
+
+    var sectionRows = this.promotions[indexPath.section].__sectionlist_rows;
+    /* 删除该产品所在活动的所有赠品 */
+    var ctrlUpdateOperations = this.delAllGiftInPromotionAt(indexPath.section);
+    /* 删除产品 */
+    var delProduct = sectionRows.splice(indexPath.row, 1);
+    ctrlUpdateOperations.push(new ArrayCtrlDeleteRows([indexPath]));
+    /* 如果该活动中已经没有产品，则删除该活动 */
+    if (sectionRows.length == 0) {
+        this.promotions.splice(indexPath.section, 1);
+        ctrlUpdateOperations = [new ArrayCtrlDeleteSections([indexPath.section])];
+    }
+    return ctrlUpdateOperations;
+}
+
+/**
+ * 添加一个产品
+ */
+ShoppingCart.prototype.addProduct = function(product) {
+    var operations = [];
+
+    var promotionIndex = this.promotionDataIndexForID(product.promotionid);
+    if (promotionIndex != null) {
+        /* 如果产品的活动已经存在，则先检测活动中是否存在该产品 */
+        var productIndex = this.productIndexInPromotion(product.productid, product.salestype, promotionIndex);
+        if (productIndex != null) {
+            /* 如果活动中已经存在该产品则合并 */
+            var indexPath = IndexPath(promotionIndex, productIndex);
+            var oldProduct = this.productDataAt(indexPath);
+            oldProduct.price = product.price;
+            oldProduct.discountamount = addIntStr(oldProduct.discountamount, product.discountamount);
+            oldProduct.distributioncount = addIntStr(oldProduct.distributioncount, product.distributioncount);
+            oldProduct.singlecount = addIntStr(oldProduct.singlecount, product.singlecount);
+            var productCountText = '';
+            if (oldProduct.distributioncount.length > 0) {
+                productCountText = oldProduct.distributioncount + oldProduct.distributionunitname
+            }
+            if (oldProduct.singlecount.length > 0) {
+                productCountText = productCountText + oldProduct.singlecount + oldProduct.singleunitname
+            }
+            oldProduct.productcount = productCountText;
+
+            operations.push(ArrayCtrlReloadRows([oldProduct], [indexPath], this.setter));
+        } else {
+            /* 不存在则直接添加该产品 */
+            this.promotions[promotionIndex].__sectionlist_rows.unshift(product);
+            operations.push(ArrayCtrlInsertRows([product], [IndexPath(promotionIndex, 0)], this.setter));
+        }
+
+        /* 刷新该活动的赠品信息 */
+        operations = operations.concat(this.refreshGiftsForPromotionDataAt(promotionIndex));
+    } else {
+        /* 如果产品的活动不存在，则创建该活动，并插入到最前面 */
+        promotionIndex = 0;
+        promotionData = this.createPromotionDataWithProduct(product);
+        this.promotions.unshift(promotionData);
+        this.refreshGiftsForPromotionDataAt(promotionIndex);
+        operations.push(ArrayCtrlInsertSections([promotionData], [promotionIndex], this.setter));
+    }
+
+    return operations;
+}
+
+/**
+ * 更新一个产品的数据，并作出相应调整。
+ * 该更新是由外部传入，购物车中对应产品的数据尚未改变，即当外部修改单个产品时调用该方法。
+ */
+ShoppingCart.prototype.updateWithProduct = function(editedProduct, indexPath) {
+    editedProduct.finalamount = calculatePriceForProduct(editedProduct).toString() == null ? '' : toDecimal(calculatePriceForProduct(editedProduct).toString());
+    editedProduct.amount = toDecimal(calculateAmountForProduct(editedProduct).toString());
+    this.promotions[indexPath.section].__sectionlist_rows.splice(indexPath.row, 1, editedProduct)
+    return this.productDataHasChanged(indexPath);
+}
+
+/**
+ * 当指定产品数据发送变化后，调用该方法对购物车进行调整，例如更换活动，调整赠品等。
+ * 只有直接修改了产品数据后才调用该方法。
+ */
+ShoppingCart.prototype.productDataHasChanged = function(indexPath) {
+    var product = this.productDataAt(indexPath);
+    var promotion = this.promotionDataAt(indexPath.section);
+    var rule = this.promotionRuleForID(product.promotionid);
+
+    if (promotion.promotionid == product.promotionid) {
+        /* 活动没有更改，更新产品数据，同时对赠品信息进行调整 */
+        var operations = [ArrayCtrlReloadRows([product], [indexPath], this.setter)];
+        operations = operations.concat(this.refreshGiftsForPromotionDataAt(indexPath.section));
+        return operations;
+    } else {
+        /* 活动已经更改，先调整当前所在活动数据，在处理修改后的活动数据 */
+
+        /* 1: 在当前所在的活动中的删除该商品 */
+        var operations = this.delProductAt(indexPath);
+
+        /* 2: 将该产品重新加入到列表 */
+        operations = operations.concat(this.addProduct(product));
+
+        return operations;
+    }
+}
+
+
+/** 批量新增或更新产品后，对购物侧进行调整 */
+ShoppingCart.prototype.updateWithProducts = function(editedProducts) {
+
+    if (Array.isArray(editedProducts) == false) {
+        return;
+    }
+
+    /** 根据产品ID在指定活动数据中查找 */
+    function _insertOrReplaceProductInPromotionData(product, promotionData) {
+        for (var i = 0; i < promotionData.__sectionlist_rows.length; i++) {
+            if (promotionData.__sectionlist_rows[i].productid == product.productid && promotionData.__sectionlist_rows[i].salestypename == product.salestypename) {
+                promotionData.__sectionlist_rows.splice(i, 1, product);
+                return;
+            }
+        }
+        promotionData.__sectionlist_rows.push(product);
+    };
+
+    /* 1：将新增的产品合并进现有的的活动中 */
+    var modifiedIndex = {}
+    for (var i = 0; i < editedProducts.length; i++) {
+        var product = editedProducts[i];
+        product.__row_template = 'productrow';
+        product.finalamount = calculatePriceForProduct(product).toString() == null ? '' : toDecimal(calculatePriceForProduct(product).toString());
+        product.amount = toDecimal(calculateAmountForProduct(product).toString());
+
+        var promotionRule = this.promotionRuleForID(product.promotionid);
+        var promotionDataIndex = this.promotionDataIndexForID(product.promotionid);
+        if (promotionDataIndex != null) {
+            var promotionData = this.promotions[promotionDataIndex];
+            this.delAllGiftInPromotionAt(promotionDataIndex);
+            _insertOrReplaceProductInPromotionData(product, promotionData);
+            modifiedIndex[promotionDataIndex.toString()] = true;
+        } else {
+            var promotionData = this.createPromotionDataWithProduct(product);
+            this.promotions.push(promotionData);
+            modifiedIndex[(this.promotions.length - 1).toString()] = true;
+        }
+    }
+
+    /* 2：更新所有需要更新的活动的赠品数据 */
+    for (var i = 0; i < this.promotions.length; i++) {
+        if (modifiedIndex[i.toString()] == true) {
+            this.refreshGiftsForPromotionDataAt(i);
+        }
+    }
+};
+
+/******************************************
+ *                  促销处理-构造函数
+ ******************************************/
+
+/**
+ * 更新指定活动中的赠品信息
+ */
+ShoppingCart.prototype.refreshGiftsForPromotionDataAt = function(section) {
+    var operations = this.delAllGiftInPromotionAt(section);
+    var promotionData = this.promotions[section];
+    var rule = this.promotionRuleForID(promotionData.__sectionlist_header.promotionid);
+    var newGifts = this.calculateGifts(promotionData.__sectionlist_rows, rule);
+
+    if (newGifts.length > 0) {
+        operations.push(ArrayCtrlInsertRows(newGifts, CreateIndexPaths(section, promotionData.__sectionlist_rows.length, newGifts.length), this.setter));
+    }
+    for (var i = 0; i < newGifts.length; i++) {
+        promotionData.__sectionlist_rows.push(newGifts[i]);
+    }
+
+    return operations;
+};
+
+/**
+ * 删除购物车中指定位置的促销活动的所有赠品
+ */
+ShoppingCart.prototype.delAllGiftInPromotionAt = function(section) {
+    var productData = this.promotions[section].__sectionlist_rows;
+    /* 删除所有赠品 */
+    for (var i = 0; i < productData.length; i++) {
+        var rowData = productData[i];
+        if (rowData.isgift == '1' || rowData.__row_template == "giftrow") {
+            var giftNumber = productData.length - i;
+            productData.splice(i, giftNumber);
+            return [new ArrayCtrlDeleteRows(CreateIndexPaths(section, i, giftNumber))];
+        }
+    }
+    return [];
+};
+
+/** 根据本品和搭赠规则，返回计算出的赠品数据 */
+ShoppingCart.prototype.calculateGifts = function(products, rule) {
+
+    if (rule == null) {
+        return [];
+    }
+
+    function _numberForUnit(product, unit) {
+        if (unit == product.singleunit) {
+            return toInt(product.singlecount);
+        } else {
+            return toInt(product.distributioncount);
+        }
+    };
+
+    /** 根据本品和简单搭赠规则，返回计算出的赠品数据 */
+    function _calculateNormalGifts(products, normalRule, promotionid) {
+        /**
+         * 1：先查看是否有缺失的本品，如果有直接返回空数组
+         * 2：从所有本品中找出短板，即数量比例最小的
+         * 3：根据最小比例计算并返回赠品数据
+         */
+
+        /* 在产品列表中查找指定产品 */
+        function _findProductWithID(id) {
+            for (var i = 0; i < products.length; i++) {
+                if (products[i].productid == id) {
+                    return products[i];
+                }
+            }
+            return null;
+        };
+
+        function _createGiftWithGiftInfo(giftInfo, rate, promotionid) {
+            var giftData = {
+                '__row_template': 'giftrow',
+                'productid': giftInfo.productid,
+                'productname': giftInfo.productname,
+                'promotionunit': giftInfo.promotionunit,
+                'promotionunitname': giftInfo.promotionunitname,
+                'image': giftInfo.image,
+                'productimage': giftInfo.image,
+                'isgift': '1',
+                'costid': promotionid,
+                'promotionunittype': giftInfo.promotionunittype
+            };
+
+            var giftcount = Math.floor(rate * giftInfo.promotioncount).toString();
+            giftData.giftcount = giftcount;
+            if (giftInfo.promotionunittype == '1') {
+                giftData.distributionunit = giftInfo.promotionunit;
+                giftData.distributionunitname = giftInfo.promotionunitname;
+                giftData.distributioncount = giftcount;
+                giftData.singleunit = '';
+                giftData.singleunitname = '';
+                giftData.singlecount = '';
+            } else {
+                giftData.singleunit = giftInfo.promotionunit;
+                giftData.singleunitname = giftInfo.promotionunitname;
+                giftData.singlecount = giftcount;
+
+                giftData.distributionunit = '';
+                giftData.distributionunitname = '';
+                giftData.distributioncount = '';
+            }
+            return giftData;
+        };
+
+        var minRate = -1;
+        for (var i = 0; i < normalRule.productlist.length; i++) {
+            var requireProductInfo = normalRule.productlist[i];
+            var product = _findProductWithID(requireProductInfo.productid);
+            if (product == null) {
+                return [];
+            }
+
+            var rate = toInt(_numberForUnit(product, requireProductInfo.promotionunit) / requireProductInfo.promotioncount);
+            if (minRate == -1 || minRate > rate) {
+                minRate = rate;
+            }
+        }
+
+        if (minRate < 1) {
+            return [];
+        }
+
+        var gifts = [];
+        for (var i = 0; i < normalRule.giftlist.length; i++) {
+            gifts.push(_createGiftWithGiftInfo(normalRule.giftlist[i], minRate, promotionid));
+        }
+        return gifts;
+    };
+
+    /** 根据本品和坎级搭赠规则，返回计算出的赠品数据 */
+    function _calculateThresholdGifts(product, thresholdRule) {
+
+        /** 根据本品数量查找出对应的坎级规则 */
+        function _findLevelRule(number) {
+            for (var i = 0; i < thresholdRule.thresholdrule.length; i++) {
+                var levelRule = thresholdRule.thresholdrule[i];
+                if (number >= toInt(levelRule.threshold_min)) {
+                    if (levelRule.threshold_max == '' || number <= toInt(levelRule.threshold_max)) {
+                        return levelRule;
+                    }
+                }
+            }
+        };
+
+        function _createGiftWithNumber(number) {
+            var giftData = {
+                '__row_template': 'giftrow',
+                'productid': thresholdRule.giftid,
+                'productname': thresholdRule.giftname,
+                'promotionunit': thresholdRule.giftunit,
+                'promotionunitname': thresholdRule.giftunitname,
+                'image': thresholdRule.giftimage,
+                'productimage': thresholdRule.giftimage,
+                'giftcount': number,
+                'isgift': '1',
+                'costid': product.costid,
+                'promotionunittype': thresholdRule.promotionunittype
+            };
+
+            if (thresholdRule.giftunittype == '1') {
+                giftData.distributionunit = thresholdRule.giftunit;
+                giftData.distributionunitname = thresholdRule.giftunitname;
+                giftData.distributioncount = number;
+                giftData.singleunit = '';
+                giftData.singleunitname = '';
+                giftData.singlecount = '';
+            } else {
+                giftData.singleunit = thresholdRule.giftunit;
+                giftData.singleunitname = thresholdRule.giftunitname;
+                giftData.singlecount = number;
+
+                giftData.distributionunit = '';
+                giftData.distributionunitname = '';
+                giftData.distributioncount = '';
+            }
+            return giftData;
+        };
+
+        if (product.productid != thresholdRule.productid) {
+            return [];
+        }
+        /* 是否全额累进 */
+        var isFullProgression = thresholdRule.full == '1';
+        var giftNumber = 0;
+        if (isFullProgression) {
+            var productNum = _numberForUnit(product, thresholdRule.productunit);
+            var levelRule = _findLevelRule(productNum);
+            if (levelRule == null) {
+                giftNumber = 0
+            } else {
+                giftNumber = Math.floor(productNum / levelRule.productcount) * levelRule.giftcount;
+            }
+
+        } else {
+            /*暂时不实现*/
+        }
+
+        if (giftNumber <= 0) {
+            return [];
+        } else {
+            return [_createGiftWithNumber(giftNumber.toString())];
+        }
+    };
+
+    if (rule.promotiontype == '1') {
+        return _calculateNormalGifts(products, rule.rule.normal, rule.promotionid);
+    } else {
+        return _calculateThresholdGifts(products[0], rule.rule.threshold);
+    }
+};
+
+
+/******************************************
+ *                方便方法-构造函数
+ ******************************************/
+
+/** 获取指定index的活动数据 */
+ShoppingCart.prototype.promotionDataAt = function(index) {
+    if (index == null) {
+        return null;
+    }
+    return this.promotions[index].__sectionlist_header;
+};
+
+/** 获取指定indexPath的产品数据 */
+ShoppingCart.prototype.productDataAt = function(indexPath) {
+    if (indexPath == null) {
+        return null;
+    }
+    return this.promotions[indexPath.section].__sectionlist_rows[indexPath.row];
+};
+
+/** 从购物车数据中获取指定活动id的数据 */
+ShoppingCart.prototype.promotionDataIndexForID = function(promotionID) {
+    for (var i = 0; i < this.promotions.length; i++) {
+        var promotionData = this.promotions[i];
+        var headerData = promotionData.__sectionlist_header;
+        if (headerData.promotionid == promotionID) {
+            return i;
+        }
+    }
+    return null;
+};
+
+/** 从规则列表中获取指定id的搭赠规则 */
+ShoppingCart.prototype.promotionRuleForID = function(promotionID) {
+    for (var i = 0; i < this.rules.length; i++) {
+        if (this.rules[i].promotionid == promotionID) {
+            return this.rules[i];
+        }
+    }
+};
+
+/** 获取购物车中指定位置的促销活动的所有本品 */
+ShoppingCart.prototype.productIndexInPromotion = function(productID, salesType, promotionIndex) {
+    for (i = 0; i < this.promotions[promotionIndex].__sectionlist_rows.length; i++) {
+        var product = this.promotions[promotionIndex].__sectionlist_rows[i];
+        if (product.productid == productID && product.salestype == salesType) {
+            return i;
+        }
+    }
+    return null;
+};
+
+/** 获取购物车中指定位置的促销活动的所有本品 */
+ShoppingCart.prototype.productsAtPromotionIndex = function(index) {
+    var tmpProducts = this.promotions[index].__sectionlist_rows;
+    var i = 0;
+    for (i = 0; i < tmpProducts.length; i++) {
+        var tmpProduct = tmpProducts[i];
+        if (tmpProduct.isgift == '1') {
+            break;
+        }
+    }
+    return tmpProducts.slice(0, i);
+};
+
+/** 获取购物车中指定位置的促销活动的所有赠品 */
+ShoppingCart.prototype.giftsAtPromotionIndex = function(index) {
+    var tmpProducts = this.promotions[index].__sectionlist_rows;
+    var i = 0;
+    for (i = 0; i < tmpProducts.length; i++) {
+        var tmpProduct = tmpProducts[i];
+        if (tmpProduct.isgift == '1') {
+            break;
+        }
+    }
+    return tmpProducts.slice(i);
+};
+
+
+ShoppingCart.prototype.createPromotionDataWithProduct = function(product) {
+    var promotionData = {};
+    promotionData.__sectionlist_header = product;
+    promotionData.__sectionlist_rows = [product];
+    if (product.promotionid == null || product.promotionid.length == 0) {
+        product.costname = '无活动';
+    }
+    return promotionData;
+};
