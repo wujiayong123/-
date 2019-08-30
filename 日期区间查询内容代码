@@ -1,0 +1,8 @@
+
+if(IN.kx_order!=null&&IN.kx_order.beginenddate!=null&&IN.kx_order.beginenddate!=""){
+  var timearr= JSON.parse(IN.kx_order.beginenddate);//把传入的参数转换为对象格式
+  if(timearr!=null&&timearr.start!=null&&timearr.end!=null){
+    var begintime  = timearr.start;
+    var endtime = timearr.end;
+  }
+}
