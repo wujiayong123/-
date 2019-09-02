@@ -1,0 +1,241 @@
+# 手机端分组列表UIFlycode配置模板
+
+由于分组列表SectionList数据结构的复杂性，目前不能完全通过IDE控件拖拽的方式配置，数据加载和数据提交需要写UIFlycode执行，本文旨在帮助理解分组列表UI层次和数据结构，最后本文会给出一个分组列表UIFlycode模板供参考。
+
+## 分组列表UI结构
+
+下图展示的是一个分组列表在订单购物车中的应用（取自剑哥Section List协议设计），分组列表顾名思义有个"分组"的概念，购物车就是按照不同活动进行分组。
+
+![SectionListMobile](http://ww4.sinaimg.cn/large/006tNc79gy1g4te8fiyxxj30ge0h3gn6.jpg)
+
+解释一下图中右侧的概念部分：
+
+- Section List：一个分组列表，一个分组列表可以有多个section
+  - Section：组
+    - Head View：一个分组的头布局，一个section只有一个头布局
+    - Row Template：一个section可以有一个或多个行模板，即不同的行布局
+      - Row Template1：一个分组的行模板1
+      - Row Template2：一个分组的行模板2
+
+## 分组列表数据结构
+
+通常从后台直接获取到的是一个一维数组，其分组信息和模板信息都隐藏在数据中，需要经过处理，转换成分组列表能识别的数据结构，再传给控件赋值。
+
+由于转换关系较为复杂，目前只支持flycode进行数据转换，纯配置的数据转换定义暂不支持。
+
+具体的转换后的数据格式应该如下所示：
+
+```json
+[
+    {
+        "__sectionlist_header": {
+          "__row_template": "headername",
+          ...
+        },
+        "__sectionlist_rows": [
+            {
+                "__row_template": "rowname",
+                ...
+            },
+      			{
+                "__row_template": "rowname",
+                ...
+            }
+        ]
+    },
+    {
+        "__sectionlist_header": {
+        	"__row_template": "headername",
+          ...
+        },
+        "__sectionlist_rows": [
+            {
+                "__row_template": "rowname",
+                ...
+            }
+        ]
+     }
+]
+```
+
+此结构为一个二维数组结构，第一层数组是组，对应UI结构中的section，第二层数组"__sectionlist_rows"是行，对应UI结构中的Row Template。
+
+可以看出转换后的数据结构与UI结构层级上是一致的。
+
+- __sectionlist_header
+
+  固定字段，header view 所需的数据，均放置在该节点下。
+
+  *一个分组只能有一个header view，因此此处不是数组*
+
+  该节点可以没有，当没有时将会直接在 __sectionlist_rows 节点中取第一条数据进行填充。
+
+- __sectionlist_rows
+
+  固定字段，具体的内容行的数据，放置在该节点下，是一个数组。
+
+  - __row_template
+
+    固定字段，如果支持多模板行，需要在行数据中插入该字段，用于指定该行信息使用哪个模板来显示。
+
+    **其值为模板的name**。
+
+## 分组列表配置
+
+### IDE配置
+
+在IDE可以拖拽配置出分组列表的head view头布局和Row Template行布局，行布局可以有多个，然后**设置头布局和行布局"控件名称"属性，在构造数据结构的row_template时要用到。因为row_template字段的值为模板的name。**能够实现一个分组有多种行布局的原理就是row_template字段与行布局的name的对应关系。
+
+下图取自家化门店评分，业务场景：一个门店可能有不固定数的多个经营品牌，一个品牌可能有不固定数量的多个评分标准。这个例子中多个经营品牌即多个section，多个评分标准即多个row(注意：不是多个行布局，不要混淆概念)。
+
+![image-20190709161219795](http://ww1.sinaimg.cn/large/006tNc79gy1g4tnm6qc4zj310c0psjvv.jpg)
+
+
+
+### UIFlycode配置模板
+
+以上述家化门店评分为例，接口返回的数据是一个一维数组，精简后原始的数据格式如下：
+
+```json
+"kx_outparams": [
+    {
+        "brand": "佰草集",
+        "rules": [
+            {
+              "__row_template":
+                "class": "佰草集典萃陈列情况",
+                "item": "柜台信息"
+            },
+            {
+                "class": "佰草集典萃销售情况",
+                "item": "中小样和赠品"
+            }
+        ]
+    },
+    {
+        "brand": "高夫",
+        "rules": [
+            {
+                "class": "高夫陈列情况",
+                "item": "柜台信息"
+            }
+        ]
+    }
+]
+```
+
+
+
+转换后的数据格式应该如下所示：
+
+```
+"kx_outparams": [
+    {
+        "__sectionlist_header": {
+            "__row_template": "header",
+            "brand": "佰草集"
+        },
+        "__sectionlist_rows": [
+            {
+                "__row_template": "row",
+                "class": "佰草集典萃陈列情况",
+                "item": "柜台信息"
+            },
+            {
+                "__row_template": "row",
+                "class": "佰草集典萃销售情况",
+                "item": "中小样和赠品"
+            }
+        ]
+    },
+    {
+        "__sectionlist_header": {
+            "__row_template": "header",
+            "brand": "高夫"
+        },
+        "__sectionlist_rows": [
+            {
+                "__row_template": "row",
+                "class": "高夫陈列情况",
+                "item": "柜台信息"
+            }
+        ]
+    }
+]
+```
+
+按照上述转换规则可以得到下面的模板，通过UIFlycode加载数据，并给分组列表赋值：
+
+```javascript
+function _createSetterForSectionList() {
+    var setter = ArrayCtrlSetter('__sectionlist_rows');
+    setter.append('__row_template', '');
+    setter.append('brand', '品牌');
+    setter.append('class', '类别');
+    setter.append('item', '项目');
+    return setter;
+};
+
+var input_params = {
+    'kx_kq_store': {'id': Page.getCtrl('终端ID').value}
+};
+
+var success = function(output) {
+    //output是接口返回的原始数据
+    var rows_data = output['kx_outparams'];
+    if (rows_data == null || typeof(rows_data) == 'undefined') {
+        return;
+    }
+
+    //data_source是按控件数据格式要求，构造后的数据
+    var data_source = new Array();
+    for (var i = 0; i < rows_data.length; i++) {
+        var dataItem = rows_data[i];
+        //构造__sectionlist_header
+        //构造__row_template，“header”是头布局的name
+        var headerItem = {
+            '__row_template': 'header',
+            'brand': dataItem.brand
+        };
+
+        //构造__sectionlist_rows，数组型
+        var rules = dataItem.rules;
+        for (var j = 0; j < rules.length; j++) {
+            var ruleItem = rules[j];
+            //构造__row_template，“row”是行布局的name
+            ruleItem.__row_template = 'row';
+        }
+
+        //构造section数据
+        var rowItem = {
+            '__sectionlist_header': headerItem,
+            '__sectionlist_rows': rules
+        };
+
+        //构造sectionlist整体数据，数组型
+        data_source.push(rowItem);
+    }
+    //赋值更新sectionlist控件
+    var setter = _createSetterForSectionList();
+    Page.getArrayCtrl('分组列表').updateList(data_source, setter);
+};
+
+var fail = function(errorCode, msg) {
+    Page.alert(AlertType.error, msg != null ? msg: '数据获取失败');
+};
+var completion = function(result, output, msg) {
+    Page.closeProgress();
+};
+Page.openProgress('获取数据中...');
+Model.requestServer('终端查询门店评分列表', input_params, success, fail, completion);
+```
+
+## 分组列表适用场景
+
+当业务场景的数据符合数组嵌套数组，且每层数组元素个数不确定，即根据接口返回的数据适配动态变化时，如本文中提到的两个例子：
+
+订单：按活动分组，可以有多个活动，每个活动分组下有可以有多个添加的产品。
+
+门店评分：按品牌分组，可以有多个品牌，每个品牌分组下可以有多个评分规则。
+
+配置时可以类比例子中的场景。
