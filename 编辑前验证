@@ -1,0 +1,10 @@
+fly:var checkedRowData = Page.getArrayCtrl('tablelist').getCheckedRows()[0].getValues();//获取该数组型控件中的选项组中的一行，获取该行的数据。
+if (checkedRowData.ordersource === '采购订单' || checkedRowData.ordersource === '采购退货') {
+    if (checkedRowData.status === '100') {
+        Page.runEvent('编辑');
+    } else {
+        Page.alert('error', '仅可编辑审核不通过的订单');
+    }
+} else {
+    Page.alert('error', '订单来源为采购订单或采购退货才能被编辑');
+}
