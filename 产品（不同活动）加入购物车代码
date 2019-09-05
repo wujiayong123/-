@@ -1,0 +1,60 @@
+let checkedRows = Page.getArrayCtrl('表格列表').getCheckedRows()
+let checkedRowValues = checkedRows.map(row => {
+	return row.getValues()
+})
+let data = window['采购订单']
+
+checkedRowValues.forEach(product => {
+  let newProduct = {
+    id: '',
+    orderid: '',
+    rate: product.unitconverrate,
+    unitconverrate: product.unitconverrate,
+    isgift: '0',
+    productid: product.id,
+    productcode: product.productcode,
+    productimage: product.productimage,
+    productname: product.productname,
+    salestype: '954254124545871872',
+    salestype__dicvalue: '基本销售',
+    costid: '',
+    costname: '',
+    price: product.adviceprice,
+    discountprice: '',
+    batchcount: '',
+    batchunit: product.distributionunit,
+    distributionunit__dicvalue: product.distributionunit__dicvalue,
+    singlecount: '',
+    singleunit: product.singleunit,
+    singleunit__dicvalue: product.singleunit__dicvalue,
+    boxweight: product.boxweight,
+    weight: '',
+    amount: '',
+    finalamount: '',
+    promotions: product.promotions,
+    promotions__dicvalue: product.promotions__dicvalue,
+    goodbatchcount: '',
+    goodsinglecount: ''
+  }
+  
+  let hasAdd = false
+  data.products.forEach(item => {
+    if (item.productid === newProduct.productid 
+        && item.salestype === newProduct.salestype
+        && item.costid === newProduct.costid) {
+      hasAdd = true
+      item.batchcount = Number(item.batchcount) 
+        + Number(newProduct.batchcount) + ''
+      item.leftdeliverbatchcount = item.batchcount
+      item.singlecount = Number(item.singlecount) 
+        + Number(newProduct.singlecount) + ''
+      item.leftdeliversinglecount = item.singlecount
+    }
+  })
+  
+	if (!hasAdd) {
+    data.products.push(newProduct)
+  }
+})
+
+Page.callEvent('refresh_productlist')
