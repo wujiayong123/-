@@ -1,6 +1,18 @@
 /*****************************************************************************
  *                              公共flycode函数
  *****************************************************************************/
+ 
+ 1.产品列表初始化：productListInit();  getProductList();  getRules();
+2.订单列表进入产品编辑：productEdit_initView(); 
+3.添加产品(添加到购物车, 保存)： productEdit_addToShoppingCard();  productEdit_saveProduct();
+productEdit_getProductData();
+4.初始化购物车：shoppingCartGetRules();  createShoppingCart(); 
+5.删除产品：delAProduct();
+6.编辑产品：shoppingCart_linkToProductEditView();
+7.新增产品(添加产品)：addAProduct();
+8.订单查看：linkToOrderInfoPage();
+9.订单提交：confirmOrder_initView();  submitdetail(); submitdetail_visitWork();
+
 
 
 /**
@@ -2547,3 +2559,7 @@ ShoppingCart.prototype.createPromotionDataWithProduct = function(product) {
     }
     return promotionData;
 };
+
+
+
+
